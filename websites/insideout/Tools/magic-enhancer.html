@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Image Enhancer - Photo Upscaler - Insideout.bond</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+    <meta name="application-name" content="Insideout.bond">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Free Online Photo Enhancer. Upscale, denoise, and sharpen your images instantly with professional results. Secure browser-based processing for maximum privacy.">
+    <meta name="keywords"
+        content="photo enhancer, image upscaler, ai photo enhancer, fix blurry photos, denoise image, sharpen image, Insideout.bond, magic image enhancer">
+    <link rel="canonical" href="https://insideout.bond/Tools/magic-enhancer.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insideout.bond/Tools/magic-enhancer.html">
+    <meta property="og:title" content="Magic Image Enhancer - Insideout.bond">
+    <meta property="og:description"
+        content="Upscale and enhance your photos instantly with AI. Secure, private, and free.">
+    <meta property="og:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://insideout.bond/Tools/magic-enhancer.html">
+    <meta property="twitter:title" content="Magic Image Enhancer - Insideout.bond">
+    <meta property="twitter:description"
+        content="Upscale and enhance your photos instantly with AI. Secure, private, and free.">
+    <meta property="twitter:image" content="https://insideout.bond/Tools/images/logo.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- auto ads  -->
+    <!--  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .slider-handle {
+            cursor: ew-resize;
+        }
+
+        /* Loading Animation */
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+            }
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1605V9LS1K');
+</script>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Magic Image Enhancer",
+  "operatingSystem": "Web",
+  "applicationCategory": "MultimediaApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Insideout.bond"
+  },
+  "description": "An AI-powered web tool for image upscaling, denoising, and sharpening, running entirely in the user's browser."
+}
+</script>
+
+<body class="bg-slate-950 text-slate-200 selection:bg-indigo-500/30 overflow-x-hidden min-h-screen">
+
+    <!-- Background Ambience -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-violet-900/20 rounded-full blur-[128px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-900/20 rounded-full blur-[128px]">
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <div class="text-center mb-12 space-y-4">
+            <div
+                class="inline-flex items-center justify-center p-3 rounded-2xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm mb-4">
+                <i data-lucide="sparkles" class="text-indigo-400 mr-2 w-5 h-5"></i>
+                <span class="text-sm font-semibold tracking-wide text-indigo-300 uppercase">Magic Image Enhancer</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-white tracking-tight">
+                Make your photos <br />
+                <span class="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Crystal
+                    Clear</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-lg mx-auto">
+                Upscale, denoise, and sharpen your images instantly right in your browser. No sign-up required.
+            </p>
+        </div>
+
+        <!-- Main Interface -->
+        <div
+            class="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl shadow-2xl overflow-hidden min-h-[600px] flex flex-col md:flex-row relative">
+
+            <!-- Left Panel: Controls -->
+            <div
+                class="w-full md:w-80 border-b md:border-b-0 md:border-r border-slate-800 p-6 flex flex-col gap-8 z-20 bg-slate-900/80">
+
+                <!-- 1. Upload Section -->
+                <div class="space-y-4">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Source Image</h3>
+
+                    <!-- Upload Box -->
+                    <label id="upload-box"
+                        class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-700 rounded-2xl cursor-pointer hover:border-indigo-500 hover:bg-slate-800/50 transition-all group">
+                        <div class="bg-slate-800 p-2 rounded-lg mb-2 group-hover:scale-110 transition-transform">
+                            <i data-lucide="upload" class="text-indigo-400 w-5 h-5"></i>
+                        </div>
+                        <span class="text-sm font-medium text-slate-400 group-hover:text-indigo-300">Upload Photo</span>
+                        <input type="file" id="file-input" class="hidden" accept="image/*" />
+                    </label>
+
+                    <!-- File Info (Hidden initially) -->
+                    <div id="file-info"
+                        class="hidden flex items-center justify-between p-3 bg-slate-800 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <div class="w-10 h-10 rounded-lg bg-slate-700 overflow-hidden shrink-0">
+                                <img id="thumb-preview" src="" class="w-full h-full object-cover" alt="Thumb" />
+                            </div>
+                            <div class="min-w-0">
+                                <p id="file-name" class="text-sm font-medium text-white truncate">filename.jpg</p>
+                                <p id="file-size" class="text-xs text-slate-500">0 KB</p>
+                            </div>
+                        </div>
+                        <button id="reset-btn"
+                            class="p-2 hover:bg-slate-700 rounded-lg text-slate-400 transition-colors">
+                            <i data-lucide="refresh-ccw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Settings (Hidden if no file) -->
+                <div id="settings-panel"
+                    class="space-y-6 transition-opacity duration-300 opacity-50 pointer-events-none">
+
+                    <!-- Upscale Factor -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Upscale Factor</h3>
+                            <span id="scale-display" class="text-xs font-mono text-indigo-400">2x</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setUpscale(1)"
+                                class="scale-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700"
+                                data-val="1">1x</button>
+                            <button onclick="setUpscale(2)"
+                                class="scale-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-indigo-500/20 text-indigo-300 border border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                                data-val="2">2x</button>
+                            <button onclick="setUpscale(4)"
+                                class="scale-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700"
+                                data-val="4">4x</button>
+                        </div>
+                    </div>
+
+                    <!-- Enhancement Level -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Enhancement</h3>
+                            <span id="level-display" class="text-xs font-mono text-indigo-400 capitalize">Medium</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="setLevel('low')"
+                                class="level-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700"
+                                data-val="low">Low</button>
+                            <button onclick="setLevel('medium')"
+                                class="level-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-indigo-500/20 text-indigo-300 border border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                                data-val="medium">Med</button>
+                            <button onclick="setLevel('high')"
+                                class="level-btn px-4 py-2 rounded-xl text-sm font-medium transition-all bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700"
+                                data-val="high">High</button>
+                        </div>
+                    </div>
+
+                    <!-- Process Button -->
+                    <div class="pt-4 border-t border-slate-800">
+                        <button id="enhance-btn"
+                            class="w-full relative overflow-hidden group flex items-center justify-center px-4 py-3 rounded-xl font-medium text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-indigo-500/30 border border-indigo-500/20 transition-all active:scale-95">
+                            <div
+                                class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
+                            </div>
+                            <span class="relative flex items-center" id="enhance-btn-text">
+                                <i data-lucide="wand-2" class="mr-2 w-5 h-5"></i> Magic Enhance
+                            </span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- 3. Download (Hidden initially) -->
+                <div id="download-section"
+                    class="mt-auto hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <a id="download-link" href="#"
+                        class="flex items-center justify-center w-full py-3 bg-slate-800 border border-slate-700 hover:bg-slate-700 hover:text-white text-slate-300 rounded-xl transition-all font-medium">
+                        <i data-lucide="download" class="mr-2 w-5 h-5"></i> Save Result
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Panel: Viewport -->
+            <div id="viewport"
+                class="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] flex items-center justify-center p-8 overflow-hidden select-none">
+
+                <!-- Placeholder State -->
+                <div id="placeholder-state" class="text-center text-slate-600">
+                    <i data-lucide="image" class="w-12 h-12 mx-auto mb-4 opacity-20"></i>
+                    <p>Upload an image to start enhancing</p>
+                </div>
+
+                <!-- Image Container -->
+                <div id="image-container"
+                    class="hidden relative max-w-full max-h-full shadow-2xl rounded-lg overflow-hidden border border-slate-700/50 group cursor-ew-resize">
+
+                    <!-- Base Image (The "After" / Enhanced version) -->
+                    <!-- Note: Initially this will show original, then enhanced after processing -->
+                    <img id="img-after" src="" alt="After"
+                        class="max-h-[70vh] w-auto block pointer-events-none select-none" draggable="false" />
+
+                    <!-- Overlay Image (The "Before" / Original version) -->
+                    <div id="img-before-container"
+                        class="absolute inset-0 overflow-hidden pointer-events-none border-r-2 border-white/50 w-1/2">
+                        <img id="img-before" src="" alt="Before" class="max-h-[70vh] w-auto block max-w-none h-full"
+                            draggable="false" />
+
+                        <!-- Label -->
+                        <div
+                            class="absolute top-4 left-4 bg-black/50 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-md">
+                            ORIGINAL
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Label -->
+                    <div id="enhanced-label"
+                        class="hidden absolute top-4 right-4 bg-indigo-600/80 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-md pointer-events-none">
+                        ENHANCED
+                    </div>
+
+                    <!-- Slider Handle -->
+                    <div id="slider-handle"
+                        class="absolute top-0 bottom-0 w-10 -ml-5 cursor-ew-resize flex items-center justify-center group-hover:opacity-100 transition-opacity left-1/2">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center text-indigo-600">
+                            <i data-lucide="move-horizontal" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                    <!-- Processing Overlay -->
+                    <div id="loading-overlay"
+                        class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm flex flex-col items-center justify-center z-50">
+                        <i data-lucide="zap" class="text-yellow-400 w-8 h-8 animate-bounce mb-4"></i>
+                        <p class="text-white font-medium animate-pulse">Enhancing details...</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Canvas for processing -->
+        <canvas id="process-canvas" class="hidden"></canvas>
+
+        <!-- Enhanced SEO & FAQ Sections -->
+        <div class="mt-20 space-y-16 border-t border-slate-800 pt-16">
+            <section class="grid md:grid-cols-2 gap-12 items-start">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-6">About Magic Image Enhancer</h2>
+                    <p class="text-slate-400 leading-relaxed text-lg">
+                        Insideout's <strong>Magic Image Enhancer</strong> uses advanced algorithms to breathe new life
+                        into your digital photographs. Whether you're dealing with low-resolution snapshots, grainy
+                        low-light captures, or slightly blurry memories, our browser-based AI tool restores clarity and
+                        detail in seconds.
+                    </p>
+                    <div class="mt-8 p-6 bg-slate-900/40 rounded-2xl border border-indigo-500/10">
+                        <h3 class="text-indigo-400 font-bold mb-3 flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            Why Privacy Matters
+                        </h3>
+                        <p class="text-slate-500 text-sm">
+                            Unlike traditional cloud-based enhancers, all processing is done locally on your machine.
+                            Your personal photos are never uploaded to our servers, keeping your data 100% private.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold text-white">How to Use</h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div
+                                class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold shrink-0">
+                                1</div>
+                            <p class="text-slate-400">Upload your target image (JPG, PNG, or WebP).</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold shrink-0">
+                                2</div>
+                            <p class="text-slate-400">Select an upscale factor (1x to 4x) and enhancement level.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold shrink-0">
+                                3</div>
+                            <p class="text-slate-400">Click "Magic Enhance" and wait for the AI to process.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div
+                                class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold shrink-0">
+                                4</div>
+                            <p class="text-slate-400">Download your crystal-clear result instantly.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-white mb-10 text-center">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
+                        <h4 class="font-bold text-white mb-2">What file formats are supported?</h4>
+                        <p class="text-slate-400 text-sm">We support all standard web formats, including JPG, JPEG, PNG,
+                            and WebP. Larger files may take slightly longer to process depending on your CPU/GPU.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
+                        <h4 class="font-bold text-white mb-2">Do I need to install any plugins?</h4>
+                        <p class="text-slate-400 text-sm">No. Magic Image Enhancer runs entirely on modern web standards
+                            (Canvas and JavaScript). It works on any modern browser like Chrome, Firefox, or Safari.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
+                        <h4 class="font-bold text-white mb-2">Is the enhancement quality permanent?</h4>
+                        <p class="text-slate-400 text-sm">The tool creates a new high-quality version of your image. You
+                            can save this enhanced version to your device while keeping your original photo intact.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="mt-20 border-t border-slate-800 py-10 text-center">
+            <p class="text-slate-600 text-sm">
+                &copy; 2026 Insideout.bond | AI-Powered Creativity
+            </p>
+        </footer>
+
+
+
+
+
+
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- State ---
+        let currentFile = null;
+        let previewUrl = null;
+        let processedUrl = null;
+        let upscaleFactor = 2;
+        let enhanceLevel = 'medium';
+        let isProcessing = false;
+
+        // --- DOM Elements ---
+        const fileInput = document.getElementById('file-input');
+        const uploadBox = document.getElementById('upload-box');
+        const fileInfo = document.getElementById('file-info');
+        const fileNameDisplay = document.getElementById('file-name');
+        const fileSizeDisplay = document.getElementById('file-size');
+        const thumbPreview = document.getElementById('thumb-preview');
+        const resetBtn = document.getElementById('reset-btn');
+        const settingsPanel = document.getElementById('settings-panel');
+        const enhanceBtn = document.getElementById('enhance-btn');
+        const enhanceBtnText = document.getElementById('enhance-btn-text');
+        const downloadSection = document.getElementById('download-section');
+        const downloadLink = document.getElementById('download-link');
+
+        const viewport = document.getElementById('viewport');
+        const placeholderState = document.getElementById('placeholder-state');
+        const imageContainer = document.getElementById('image-container');
+        const imgAfter = document.getElementById('img-after');
+        const imgBefore = document.getElementById('img-before');
+        const imgBeforeContainer = document.getElementById('img-before-container');
+        const sliderHandle = document.getElementById('slider-handle');
+        const enhancedLabel = document.getElementById('enhanced-label');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const canvas = document.getElementById('process-canvas');
+
+        // --- Initialization ---
+        lucide.createIcons();
+
+        // --- Event Listeners ---
+        fileInput.addEventListener('change', handleUpload);
+        resetBtn.addEventListener('click', resetApp);
+        enhanceBtn.addEventListener('click', handleEnhance);
+
+        // --- Slider Logic ---
+        let isDragging = false;
+
+        imageContainer.addEventListener('mousedown', () => isDragging = true);
+        window.addEventListener('mouseup', () => isDragging = false);
+        imageContainer.addEventListener('touchstart', () => isDragging = true);
+        window.addEventListener('touchend', () => isDragging = false);
+
+        const updateSlider = (clientX) => {
+            if (!imageContainer.offsetParent) return; // Hidden
+            const rect = imageContainer.getBoundingClientRect();
+            const x = clientX - rect.left;
+            // Clamp percentage 0-100
+            let percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+            imgBeforeContainer.style.width = `${percent}%`;
+            sliderHandle.style.left = `${percent}%`;
+        };
+
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                updateSlider(e.clientX);
+            }
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                updateSlider(e.touches[0].clientX);
+            }
+        });
+
+        // --- Core Functions ---
+
+        function handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            currentFile = file;
+            let url;
+            try {
+                url = URL.createObjectURL(file);
+            } catch (err) {
+                console.error("Error creating object URL:", err);
+                return;
+            }
+            previewUrl = url;
+            processedUrl = null;
+
+            // UI Updates
+            uploadBox.classList.add('hidden');
+            fileInfo.classList.remove('hidden');
+
+            fileNameDisplay.textContent = file.name;
+            fileSizeDisplay.textContent = Math.round(file.size / 1024) + ' KB';
+            thumbPreview.src = url;
+
+            // Enable Settings
+            settingsPanel.classList.remove('opacity-50', 'pointer-events-none');
+
+            // Setup Viewport
+            placeholderState.classList.add('hidden');
+            imageContainer.classList.remove('hidden');
+
+            // Initial State: Show original in both slots, hide slider UI until processed
+            imgAfter.src = url;
+            imgBefore.src = url;
+
+            // Hide comparison tools initially
+            imgBeforeContainer.style.width = '0%';
+            sliderHandle.style.display = 'none';
+            enhancedLabel.classList.add('hidden');
+            downloadSection.classList.add('hidden');
+        }
+
+        function resetApp() {
+            currentFile = null;
+            previewUrl = null;
+            processedUrl = null;
+            fileInput.value = '';
+
+            uploadBox.classList.remove('hidden');
+            fileInfo.classList.add('hidden');
+            settingsPanel.classList.add('opacity-50', 'pointer-events-none');
+
+            placeholderState.classList.remove('hidden');
+            imageContainer.classList.add('hidden');
+            downloadSection.classList.add('hidden');
+            imgAfter.src = '';
+            imgBefore.src = '';
+        }
+
+        function setUpscale(val) {
+            upscaleFactor = val;
+            document.getElementById('scale-display').textContent = val + 'x';
+
+            // Update UI buttons
+            document.querySelectorAll('.scale-btn').forEach(btn => {
+                const isSelected = parseInt(btn.dataset.val) === val;
+                updateBtnStyle(btn, isSelected);
+            });
+        }
+
+        function setLevel(val) {
+            enhanceLevel = val;
+            document.getElementById('level-display').textContent = val;
+
+            // Update UI buttons
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                const isSelected = btn.dataset.val === val;
+                updateBtnStyle(btn, isSelected);
+            });
+        }
+
+        function updateBtnStyle(btn, isActive) {
+            const activeClasses = ['bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/50', 'shadow-[0_0_15px_rgba(99,102,241,0.3)]'];
+            const inactiveClasses = ['bg-slate-800', 'text-slate-200', 'border-slate-700', 'hover:bg-slate-700'];
+
+            if (isActive) {
+                btn.classList.remove(...inactiveClasses);
+                btn.classList.add(...activeClasses);
+            } else {
+                btn.classList.remove(...activeClasses);
+                btn.classList.add(...inactiveClasses);
+            }
+        }
+
+        // --- Image Processing Logic ---
+
+        async function handleEnhance() {
+            if (!previewUrl || isProcessing) return;
+
+            isProcessing = true;
+            loadingOverlay.classList.remove('hidden');
+            enhanceBtnText.innerHTML = `<i data-lucide="loader-2" class="mr-2 w-5 h-5 animate-spin"></i> Processing...`;
+            lucide.createIcons();
+
+            // Simulate delay for "AI" effect
+            await new Promise(r => setTimeout(r, 800));
+
+            const img = new Image();
+            img.src = previewUrl;
+
+            img.onerror = () => {
+                isProcessing = false;
+                loadingOverlay.classList.add('hidden');
+                enhanceBtnText.innerHTML = `<i data-lucide="wand-2" class="mr-2 w-5 h-5"></i> Magic Enhance`;
+                console.error("Failed to load image");
+            };
+
+            img.onload = () => {
+                const ctx = canvas.getContext('2d');
+
+                // 1. Calc Dimensions
+                const targetWidth = Math.round(img.width * upscaleFactor);
+                const targetHeight = Math.round(img.height * upscaleFactor);
+
+                canvas.width = targetWidth;
+                canvas.height = targetHeight;
+
+                // 2. Draw & Resize
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+                // 3. Apply Filters
+                let sharpenStrength = 0.2;
+                let contrast = 10;
+                let saturation = 0.1;
+
+                if (enhanceLevel === 'low') { sharpenStrength = 0.1; contrast = 5; saturation = 0.05; }
+                if (enhanceLevel === 'high') { sharpenStrength = 0.5; contrast = 20; saturation = 0.2; }
+
+                applyAdjustments(ctx, targetWidth, targetHeight, contrast, saturation);
+
+                if (enhanceLevel !== 'low' || upscaleFactor > 1) {
+                    applySharpen(ctx, targetWidth, targetHeight, sharpenStrength);
+                }
+
+                // 4. Output
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        console.error("Canvas toBlob returned null");
+                        isProcessing = false;
+                        loadingOverlay.classList.add('hidden');
+                        enhanceBtnText.innerHTML = `<i data-lucide="wand-2" class="mr-2 w-5 h-5"></i> Magic Enhance`;
+                        lucide.createIcons();
+                        return;
+                    }
+
+                    let newUrl;
+                    try {
+                        newUrl = URL.createObjectURL(blob);
+                    } catch (err) {
+                        console.error("Error creating blob URL:", err);
+                        isProcessing = false;
+                        loadingOverlay.classList.add('hidden');
+                        enhanceBtnText.innerHTML = `<i data-lucide="wand-2" class="mr-2 w-5 h-5"></i> Magic Enhance`;
+                        lucide.createIcons();
+                        return;
+                    }
+
+                    processedUrl = newUrl;
+
+                    // Update Viewport
+                    imgAfter.src = newUrl;
+                    // Reset slider to middle
+                    imgBeforeContainer.style.width = '50%';
+                    sliderHandle.style.left = '50%';
+                    sliderHandle.style.display = 'flex';
+                    enhancedLabel.classList.remove('hidden');
+
+                    // Setup Download
+                    downloadLink.href = newUrl;
+                    downloadLink.download = `enhanced-${currentFile.name}`;
+                    downloadSection.classList.remove('hidden');
+
+                    // Reset State
+                    isProcessing = false;
+                    loadingOverlay.classList.add('hidden');
+                    enhanceBtnText.innerHTML = `<i data-lucide="wand-2" class="mr-2 w-5 h-5"></i> Magic Enhance`;
+                    lucide.createIcons();
+                }, 'image/jpeg', 0.95);
+            };
+        }
+
+        // --- Filter Algorithms ---
+
+        function applySharpen(ctx, w, h, mix) {
+            const imageData = ctx.getImageData(0, 0, w, h);
+            const data = imageData.data;
+            const buffer = new Uint8ClampedArray(data);
+
+            for (let y = 1; y < h - 1; y++) {
+                for (let x = 1; x < w - 1; x++) {
+                    const idx = (y * w + x) * 4;
+                    for (let c = 0; c < 3; c++) {
+                        const val =
+                            buffer[idx + c] * 5
+                            - buffer[((y - 1) * w + x) * 4 + c]
+                            - buffer[((y + 1) * w + x) * 4 + c]
+                            - buffer[(y * w + (x - 1)) * 4 + c]
+                            - buffer[(y * w + (x + 1)) * 4 + c];
+
+                        data[idx + c] = (1 - mix) * buffer[idx + c] + mix * val;
+                    }
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function applyAdjustments(ctx, w, h, contrast, saturation) {
+            const imageData = ctx.getImageData(0, 0, w, h);
+            const data = imageData.data;
+            const factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+            for (let i = 0; i < data.length; i += 4) {
+                // Contrast
+                data[i] = factor * (data[i] - 128) + 128;
+                data[i + 1] = factor * (data[i + 1] - 128) + 128;
+                data[i + 2] = factor * (data[i + 2] - 128) + 128;
+
+                // Saturation
+                const gray = 0.2989 * data[i] + 0.5870 * data[i + 1] + 0.1140 * data[i + 2];
+                data[i] = -gray * saturation + data[i] * (1 + saturation);
+                data[i + 1] = -gray * saturation + data[i + 1] * (1 + saturation);
+                data[i + 2] = -gray * saturation + data[i + 2] * (1 + saturation);
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+    </script>
+</body>
+
+
+</html>

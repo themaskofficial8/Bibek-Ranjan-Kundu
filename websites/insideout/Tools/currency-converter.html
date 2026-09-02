@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Real-time Exchange Rates - Insideout.bond</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout.bond">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description"
+        content="Free Online Currency Converter with real-time exchange rates. Convert USD, EUR, GBP, INR and 30+ other global currencies instantly with accurate market data.">
+    <meta name="keywords"
+        content="currency converter, exchange rates, foreign exchange, money converter, real-time rates, Insideout.bond, forex calculator, INR converter">
+    <link rel="canonical" href="https://insideout.bond/Tools/currency%20converter.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insideout.bond/Tools/currency%20converter.html">
+    <meta property="og:title" content="Currency Converter - Insideout.bond">
+    <meta property="og:description"
+        content="Convert currencies instantly with real-time exchange rates. Accurate, fast, and secure.">
+    <meta property="og:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://insideout.bond/Tools/currency%20converter.html">
+    <meta property="twitter:title" content="Currency Converter - Insideout.bond">
+    <meta property="twitter:description"
+        content="Convert currencies instantly with real-time exchange rates. Accurate, fast, and secure.">
+    <meta property="twitter:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- AdSense -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Insideout Currency Converter",
+      "operatingSystem": "Web",
+      "applicationCategory": "FinancialApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Insideout.bond"
+      },
+      "description": "A real-time currency converter providing accurate exchange rates for over 30 global currencies."
+    }
+    </script>
+
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for dropdowns */
+        select::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        select::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        select::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        select::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .currency-flag {
+            font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+        }
+
+        /* Animation for swap button */
+        .rotate-180-smooth {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-180-smooth:hover {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 min-h-screen flex flex-col items-center p-4 text-slate-200">
+
+    <div class="w-full max-w-2xl py-6 sm:py-12">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-600 bg-opacity-20 mb-4 ring-1 ring-brand-500 ring-opacity-50">
+                <i class="fa-solid fa-coins text-3xl text-brand-100"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2 tracking-tight"> Insideout Currency Exchange</h1>
+            <p class="text-brand-100 opacity-80 text-sm">Real-time rates & accurate conversions</p>
+        </div>
+
+        <!-- Main Card -->
+        <div
+            class="glass-effect rounded-2xl shadow-2xl overflow-hidden border border-white/20 relative max-w-md mx-auto">
+
+            <!-- Loading Overlay -->
+            <div id="loadingOverlay"
+                class="absolute inset-0 bg-white/90 z-20 flex flex-col items-center justify-center transition-opacity duration-300">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-600 mb-3"></div>
+                <p class="text-sm text-slate-500 font-medium">Fetching latest rates...</p>
+            </div>
+
+            <div class="p-6 sm:p-8">
+
+                <!-- Amount Input -->
+                <div class="mb-6">
+                    <label
+                        class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                        </span>
+                        <input type="number" id="amount" value="1" min="0" step="any"
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-lg font-bold text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all placeholder-slate-300 shadow-sm"
+                            placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- Currency Selectors -->
+                <div class="relative grid grid-cols-[1fr_auto_1fr] gap-2 items-end mb-8">
+
+                    <!-- From Currency -->
+                    <div>
+                        <label
+                            class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">From</label>
+                        <div class="relative group">
+                            <select id="fromCurrency"
+                                class="w-full appearance-none bg-slate-50 border border-slate-200 text-slate-700 py-3 pl-3 pr-8 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium cursor-pointer shadow-sm">
+                                <!-- Options injected by JS -->
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500 group-hover:text-brand-600 transition-colors">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <div class="mb-1">
+                        <button id="swapBtn"
+                            class="w-10 h-10 rounded-full bg-brand-50 border border-brand-100 text-brand-600 hover:bg-brand-600 hover:text-white flex items-center justify-center transition-all shadow-sm hover:shadow-md rotate-180-smooth focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </button>
+                    </div>
+
+                    <!-- To Currency -->
+                    <div>
+                        <label
+                            class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">To</label>
+                        <div class="relative group">
+                            <select id="toCurrency"
+                                class="w-full appearance-none bg-slate-50 border border-slate-200 text-slate-700 py-3 pl-3 pr-8 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium cursor-pointer shadow-sm">
+                                <!-- Options injected by JS -->
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500 group-hover:text-brand-600 transition-colors">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Display -->
+                <div class="bg-brand-50 rounded-xl p-5 border border-brand-100 text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10">
+                        <i class="fa-solid fa-chart-line text-6xl text-brand-600"></i>
+                    </div>
+
+                    <p class="text-sm text-brand-600 font-medium mb-1">Exchange Rate</p>
+                    <div class="flex flex-col items-center justify-center">
+                        <span id="resultText"
+                            class="text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight break-all">
+                            ---
+                        </span>
+                        <span id="rateInfo" class="text-sm text-slate-500 mt-2 font-medium">
+                            1 USD = --- EUR
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Last Updated -->
+                <div class="mt-4 text-center">
+                    <p class="text-xs text-slate-400 flex items-center justify-center gap-1">
+                        <i class="fa-regular fa-clock"></i>
+                        Last updated: <span id="lastUpdated">Fetching...</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SEO Content & FAQ Section (Inside container, outside card) -->
+        <div class="mt-12 sm:mt-16 space-y-12">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-brand-400"></i>
+                About Currency Converter
+            </h2>
+            <div class="space-y-6 text-slate-300 leading-relaxed text-sm sm:text-base">
+                <p>
+                    The <strong>Insideout Currency Converter</strong> is a powerful financial tool designed to
+                    provide you with the most accurate and up-to-date exchange rates. Whether you're traveling,
+                    shopping internationally, or managing global investments, our tool ensures you have the data you
+                    need at your fingertips.
+                </p>
+
+                <div class="grid sm:grid-cols-2 gap-6 mt-4">
+                    <div class="space-y-3">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-400"></i>
+                            Key Features
+                        </h3>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Real-time exchange rates from reliable APIs.</li>
+                            <li>Supports 34+ major global currencies.</li>
+                            <li>Instant "Swap" functionality for easy reverse conversion.</li>
+                            <li>Offline mode with 24-hour estimate fallback.</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-brand-400"></i>
+                            How to Use
+                        </h3>
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>Enter the amount you wish to convert.</li>
+                            <li>Select the source currency (From).</li>
+                            <li>Select the target currency (To).</li>
+                            <li>View the converted result instantly.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-4">Frequently Asked Questions</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-bold text-white text-sm mb-1">How often are the rates updated?</h4>
+                            <p class="text-xs text-slate-400">Our exchange rates are refreshed multiple times a day
+                                via the ExchangeRate API to ensure high accuracy with global markets.</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-bold text-white text-sm mb-1">Is it safe to use?</h4>
+                            <p class="text-xs text-slate-400">Yes, all calculations are performed locally in your
+                                browser. We don't store your financial data or conversion history.</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <h4 class="font-bold text-white text-sm mb-1">Which currencies are supported?</h4>
+                            <p class="text-xs text-slate-400">We support major currencies including USD, EUR, GBP,
+                                JPY, INR, CAD, AUD, and many more from around the world.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-slate-400/60 text-xs mt-12">
+                    &copy; 2026 Insideout.bond | A platform of innovation.
+                </p>
+            </div>
+        </div>
+
+        <script>
+            // --- Configuration & State ---
+            const API_URL = 'https://api.exchangerate-api.com/v4/latest/USD';
+
+            // Comprehensive list of currencies with flags and names
+            const currencyList = {
+                "USD": { name: "United States Dollar", flag: "🇺🇸" },
+                "EUR": { name: "Euro", flag: "🇪🇺" },
+                "GBP": { name: "British Pound Sterling", flag: "🇬🇧" },
+                "JPY": { name: "Japanese Yen", flag: "🇯🇵" },
+                "AUD": { name: "Australian Dollar", flag: "🇦🇺" },
+                "CAD": { name: "Canadian Dollar", flag: "🇨🇦" },
+                "CHF": { name: "Swiss Franc", flag: "🇨🇭" },
+                "CNY": { name: "Chinese Yuan", flag: "🇨🇳" },
+                "INR": { name: "Indian Rupee", flag: "🇮🇳" },
+                "BRL": { name: "Brazilian Real", flag: "🇧🇷" },
+                "RUB": { name: "Russian Ruble", flag: "🇷🇺" },
+                "KRW": { name: "South Korean Won", flag: "🇰🇷" },
+                "SGD": { name: "Singapore Dollar", flag: "🇸🇬" },
+                "NZD": { name: "New Zealand Dollar", flag: "🇳🇿" },
+                "MXN": { name: "Mexican Peso", flag: "🇲🇽" },
+                "HKD": { name: "Hong Kong Dollar", flag: "🇭🇰" },
+                "ZAR": { name: "South African Rand", flag: "🇿🇦" },
+                "TRY": { name: "Turkish Lira", flag: "🇹🇷" },
+                "SEK": { name: "Swedish Krona", flag: "🇸🇪" },
+                "NOK": { name: "Norwegian Krone", flag: "🇳🇴" },
+                "DKK": { name: "Danish Krone", flag: "🇩🇰" },
+                "PLN": { name: "Polish Zloty", flag: "🇵🇱" },
+                "THB": { name: "Thai Baht", flag: "🇹🇭" },
+                "IDR": { name: "Indonesian Rupiah", flag: "🇮🇩" },
+                "HUF": { name: "Hungarian Forint", flag: "🇭🇺" },
+                "CZK": { name: "Czech Koruna", flag: "🇨🇿" },
+                "ILS": { name: "Israeli New Shekel", flag: "🇮🇱" },
+                "CLP": { name: "Chilean Peso", flag: "🇨🇱" },
+                "PHP": { name: "Philippine Peso", flag: "🇵🇭" },
+                "AED": { name: "UAE Dirham", flag: "🇦🇪" },
+                "COP": { name: "Colombian Peso", flag: "🇨🇴" },
+                "SAR": { name: "Saudi Riyal", flag: "🇸🇦" },
+                "MYR": { name: "Malaysian Ringgit", flag: "🇲🇾" },
+                "RON": { name: "Romanian Leu", flag: "🇷🇴" }
+            };
+
+            // Complete fallback rates to ensure offline functionality for ALL supported currencies
+            const fallbackRates = {
+                "USD": 1,
+                "EUR": 0.92,
+                "GBP": 0.79,
+                "JPY": 150.2,
+                "AUD": 1.53,
+                "CAD": 1.35,
+                "CHF": 0.88,
+                "CNY": 7.19,
+                "INR": 83.1,
+                "BRL": 4.95,
+                "RUB": 91.5,
+                "KRW": 1335.0,
+                "SGD": 1.34,
+                "NZD": 1.63,
+                "MXN": 17.1,
+                "HKD": 7.82,
+                "ZAR": 19.1,
+                "TRY": 30.5,
+                "SEK": 10.4,
+                "NOK": 10.5,
+                "DKK": 6.9,
+                "PLN": 4.0,
+                "THB": 35.8,
+                "IDR": 15600,
+                "HUF": 358,
+                "CZK": 23.2,
+                "ILS": 3.65,
+                "CLP": 965,
+                "PHP": 56.1,
+                "AED": 3.67,
+                "COP": 3950,
+                "SAR": 3.75,
+                "MYR": 4.77,
+                "RON": 4.6
+            };
+
+            let exchangeRates = {};
+
+            // --- DOM Elements ---
+            const amountInput = document.getElementById('amount');
+            const fromSelect = document.getElementById('fromCurrency');
+            const toSelect = document.getElementById('toCurrency');
+            const swapBtn = document.getElementById('swapBtn');
+            const resultText = document.getElementById('resultText');
+            const rateInfo = document.getElementById('rateInfo');
+            const lastUpdated = document.getElementById('lastUpdated');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const apiStatus = document.getElementById('apiStatus');
+
+            // --- Initialization ---
+            async function init() {
+                // Populate select dropdowns
+                populateDropdowns();
+
+                // Set defaults
+                fromSelect.value = "USD";
+                toSelect.value = "EUR";
+
+                // Fetch rates
+                await fetchRates();
+
+                // Initial calculation
+                calculate();
+
+                // Remove loading screen
+                setTimeout(() => {
+                    loadingOverlay.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 300);
+                }, 800); // Small delay for smooth UX
+            }
+
+            // --- Functions ---
+
+            function populateDropdowns() {
+                const sortedCurrencies = Object.keys(currencyList).sort();
+
+                const createOption = (code) => {
+                    const currency = currencyList[code];
+                    const option = document.createElement('option');
+                    option.value = code;
+                    option.textContent = `${currency.flag} ${code} - ${currency.name}`;
+                    return option;
+                };
+
+                sortedCurrencies.forEach(code => {
+                    fromSelect.appendChild(createOption(code));
+                    toSelect.appendChild(createOption(code));
+                });
+            }
+
+            async function fetchRates() {
+                try {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const data = await response.json();
+
+                    // Merge API rates over fallback rates. 
+                    // This ensures if API misses a currency, we still have a fallback value.
+                    exchangeRates = { ...fallbackRates, ...data.rates };
+
+                    // Update timestamp
+                    const date = new Date(data.time_last_updated * 1000);
+                    lastUpdated.textContent = date.toLocaleString();
+
+                    updateApiStatus(true);
+                } catch (error) {
+                    console.error('Error fetching rates:', error);
+                    // Use fallback if API fails
+                    exchangeRates = fallbackRates;
+                    lastUpdated.textContent = "Offline Mode (Estimates)";
+                    updateApiStatus(false);
+                }
+            }
+
+            function updateApiStatus(isOnline) {
+                if (isOnline) {
+                    apiStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online';
+                    apiStatus.className = 'flex items-center gap-1.5 text-xs font-bold text-emerald-600';
+                } else {
+                    apiStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500"></span> Offline';
+                    apiStatus.className = 'flex items-center gap-1.5 text-xs font-bold text-amber-600';
+                }
+            }
+
+            function calculate() {
+                const fromCode = fromSelect.value;
+                const toCode = toSelect.value;
+                const amount = parseFloat(amountInput.value);
+
+                // Validation
+                if (isNaN(amount) || amount < 0) {
+                    resultText.textContent = "0.00";
+                    return;
+                }
+
+                // Get rates - use fallback directly in case of any data gaps
+                const fromRate = exchangeRates[fromCode] || fallbackRates[fromCode] || 1;
+                const toRate = exchangeRates[toCode] || fallbackRates[toCode] || 1;
+
+                // Calculation formula: (Amount / FromRate) * ToRate
+                // Because base is USD
+                const convertedAmount = (amount / fromRate) * toRate;
+                const singleUnitRate = (1 / fromRate) * toRate;
+
+                // Dynamic Precision Formatting
+                // If the amount is very small (like 0.005), show more decimals
+                let minDigits = 2;
+                let maxDigits = 2;
+
+                if (convertedAmount > 0 && convertedAmount < 1) {
+                    minDigits = 4;
+                    maxDigits = 4;
+                }
+
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: toCode,
+                    minimumFractionDigits: minDigits,
+                    maximumFractionDigits: maxDigits
+                });
+
+                resultText.textContent = formatter.format(convertedAmount);
+
+                // Update the "1 USD = X EUR" small text
+                rateInfo.textContent = `1 ${fromCode} = ${singleUnitRate.toFixed(4)} ${toCode}`;
+            }
+
+            // --- Event Listeners ---
+
+            // Recalculate on input or selection change
+            amountInput.addEventListener('input', calculate);
+            fromSelect.addEventListener('change', calculate);
+            toSelect.addEventListener('change', calculate);
+
+            // Swap functionality
+            swapBtn.addEventListener('click', () => {
+                // Animate button
+                swapBtn.style.transform = 'rotate(180deg)';
+                setTimeout(() => swapBtn.style.transform = 'rotate(0deg)', 300);
+
+                // Swap values
+                const temp = fromSelect.value;
+                fromSelect.value = toSelect.value;
+                toSelect.value = temp;
+
+                // Recalculate
+                calculate();
+            });
+
+            // Start the app
+            init();
+
+        </script>
+</body>
+
+</html>

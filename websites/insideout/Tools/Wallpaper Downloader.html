@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4K Wallpaper Downloader - Insideout.bond</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout.bond">
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description"
+        content="Free Online 4K Wallpaper Downloader. Discover and download premium high-resolution anime, landscape, and minimalist wallpapers from Wallhaven. Supports full HD and 4K resolutions.">
+    <meta name="keywords"
+        content="wallpaper downloader, 4k wallpapers, anime wallpapers, art downloader, high res wallpapers, wallhaven client, Insideout.bond, 4k backgrounds">
+    <link rel="canonical" href="https://insideout.bond/Tools/Wallpaper%20Downloader.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insideout.bond/Tools/Wallpaper%20Downloader.html">
+    <meta property="og:title" content="4K Wallpaper Downloader - Insideout.bond">
+    <meta property="og:description"
+        content="Discover and download premium 4K wallpapers for free. High-resolution masterpieces curated for your desktop and mobile.">
+    <meta property="og:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://insideout.bond/Tools/Wallpaper%20Downloader.html">
+    <meta property="twitter:title" content="4K Wallpaper Downloader - Insideout.bond">
+    <meta property="twitter:description"
+        content="Discover and download premium 4K wallpapers for free. High-resolution masterpieces curated for your desktop and mobile.">
+    <meta property="twitter:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- AdSense -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Insideout 4K Wallpaper Downloader",
+  "operatingSystem": "Web",
+  "applicationCategory": "MultimediaApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Insideout.bond"
+  },
+  "description": "A high-resolution wallpaper downloader client using the Wallhaven API to browse and download 4K wallpapers."
+}
+</script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            400: '#a78bfa',
+                            500: '#8b5cf6', // Violet
+                            600: '#7c3aed',
+                            900: '#4c1d95',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .image-overlay {
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0) 100%);
+        }
+
+        .loader {
+            border: 3px solid rgba(139, 92, 246, 0.1);
+            border-left-color: #8b5cf6;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .filter-btn.active {
+            background-color: #8b5cf6;
+            border-color: #8b5cf6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-dark-bg text-slate-200 antialiased min-h-screen flex flex-col">
+
+    <nav class="fixed top-0 w-full z-50 glass-panel shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="bg-gradient-to-tr from-brand-500 to-indigo-500 p-2 rounded-lg shadow-lg shadow-brand-500/20">
+                        <i class="ph ph-image-square text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white tracking-tight">Insideout 4K</h1>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Wallhaven Client</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-[1700px] mx-auto w-full">
+
+        <div class="max-w-4xl mx-auto mb-16 text-center">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tighter">
+                Curated Visual <br> <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">Masterpieces.</span>
+            </h2>
+
+            <div class="relative group z-10 mb-8">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-indigo-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500">
+                </div>
+                <form id="searchForm" class="relative flex items-center">
+                    <input type="text" id="searchInput" placeholder="Search (e.g. Cyberpunk, 4K, Anime)..."
+                        class="w-full bg-dark-card border border-dark-border text-white text-lg rounded-xl pl-12 pr-32 py-5 focus:outline-none focus:ring-2 focus:ring-brand-500/30 transition-all shadow-2xl">
+                    <i class="ph ph-magnifying-glass absolute left-4 text-2xl text-slate-400"></i>
+                    <button type="submit"
+                        class="absolute right-3 bg-brand-600 hover:bg-brand-500 text-white px-8 py-2.5 rounded-lg font-bold transition-all shadow-lg shadow-brand-600/20">Search</button>
+                </form>
+            </div>
+
+            <div class="flex flex-col gap-6 items-center">
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button onclick="toggleCategory('111')" id="cat_111"
+                        class="filter-btn active px-5 py-2 rounded-full bg-dark-card border border-dark-border text-slate-300 text-xs font-bold uppercase tracking-widest hover:border-brand-500 transition-all">All</button>
+                    <button onclick="toggleCategory('010')" id="cat_010"
+                        class="filter-btn px-5 py-2 rounded-full bg-dark-card border border-dark-border text-slate-300 text-xs font-bold uppercase tracking-widest hover:border-brand-500 transition-all">Anime</button>
+                    <button onclick="toggleCategory('100')" id="cat_100"
+                        class="filter-btn px-5 py-2 rounded-full bg-dark-card border border-dark-border text-slate-300 text-xs font-bold uppercase tracking-widest hover:border-brand-500 transition-all">General</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gridContainer"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 min-h-[400px]">
+        </div>
+
+        <div id="loadingIndicator" class="hidden py-16 flex flex-col items-center w-full">
+            <div class="loader mb-4"></div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-[0.3em] animate-pulse">Loading Visuals</p>
+        </div>
+
+    </main>
+
+    <!-- SEO Content & FAQ Section -->
+    <section class="max-w-4xl mx-auto px-4 py-12 border-t border-dark-border">
+        <div class="space-y-12">
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-6">About 4K Wallpaper Downloader</h2>
+                <p class="text-slate-400 leading-relaxed mb-4">
+                    Insideout 4K is a premium wallpaper discovery tool that connects you to the vast library of
+                    high-quality images from Wallhaven. We provide a clean, ad-friendly interface to browse, preview,
+                    and download stunning masterpieces for your personal devices.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8 mt-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-brand-400 mb-4">How to Use</h3>
+                        <ul class="space-y-3 text-slate-400">
+                            <li class="flex gap-3"><span class="text-brand-500 font-bold">01.</span> Use the search bar
+                                to find specific themes like "Cyberpunk" or "Nature".</li>
+                            <li class="flex gap-3"><span class="text-brand-500 font-bold">02.</span> Toggle categories
+                                (All, Anime, General) to filter your interests.</li>
+                            <li class="flex gap-3"><span class="text-brand-500 font-bold">03.</span> Click the
+                                "Download" button on any card for quick access.</li>
+                            <li class="flex gap-3"><span class="text-brand-500 font-bold">04.</span> Click the image to
+                                see a larger preview before downloading.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-brand-400 mb-4">Features</h3>
+                        <ul class="space-y-3 text-slate-400">
+                            <li>• Direct access to 4K and Full HD assets.</li>
+                            <li>• Secure client-side processing.</li>
+                            <li>• Infinite scroll for endless inspiration.</li>
+                            <li>• Cross-platform compatibility (Desktop & Mobile).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-8">Frequently Asked Questions</h2>
+                <div class="grid gap-6">
+                    <div class="bg-dark-card p-6 rounded-2xl border border-dark-border">
+                        <h4 class="font-bold text-white mb-2">Is this tool free?</h4>
+                        <p class="text-slate-400 text-sm">Yes, Insideout 4K is completely free to use. We leverage
+                            public APIs to bring you the best content without any subscription fees.</p>
+                    </div>
+                    <div class="bg-dark-card p-6 rounded-2xl border border-dark-border">
+                        <h4 class="font-bold text-white mb-2">Are the wallpapers high resolution?</h4>
+                        <p class="text-slate-400 text-sm">Absolutely. Our tool filters for images at least 1920x1080
+                            (Full HD) and many are available in 4K (3840x2160) or higher.</p>
+                    </div>
+                    <div class="bg-dark-card p-6 rounded-2xl border border-dark-border">
+                        <h4 class="font-bold text-white mb-2">Can I use these for commercial projects?</h4>
+                        <p class="text-slate-400 text-sm">The wallpapers are provided by Wallhaven. Content licenses
+                            vary by creator. We recommend checking the original source for specific usage rights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-dark-border py-8 text-center">
+        <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">
+            &copy; 2026 Insideout.bond | Powered by Wallhaven API
+        </p>
+    </footer>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-[60] transform translate-y-32 transition-transform duration-500">
+        <div
+            class="bg-dark-card/90 backdrop-blur-md border border-brand-500/30 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
+            <div class="bg-brand-500/20 p-2.5 rounded-xl flex-shrink-0">
+                <i class="ph ph-check text-brand-400 text-xl" id="toastIcon"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm tracking-tight" id="toastTitle">System</h4>
+                <p class="text-slate-400 text-xs font-medium" id="toastMessage">Message</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageModal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-dark-bg/95 backdrop-blur-xl">
+        <button onclick="closeModal()"
+            class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors z-50">
+            <i class="ph ph-x text-4xl"></i>
+        </button>
+
+        <div class="max-w-6xl w-full h-full flex flex-col justify-center items-center relative">
+            <img id="modalImg" src=""
+                class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/5"
+                alt="Preview">
+
+            <div class="mt-8 flex flex-wrap justify-center gap-4 w-full z-50">
+                <button id="modalDownloadBtn"
+                    class="bg-brand-600 hover:bg-brand-500 text-white px-10 py-4 rounded-2xl font-bold flex items-center gap-3 shadow-2xl shadow-brand-600/30 transition-transform active:scale-95">
+                    <i class="ph ph-download-simple text-2xl"></i>
+                    Download Full Res
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Setup ---
+        const API_BASE = 'https://wallhaven.cc/api/v1/search';
+        let currentQuery = '';
+        let currentPage = 1;
+        let isFetching = false;
+        let currentCategories = '111';
+
+        // --- DOM ---
+        const grid = document.getElementById('gridContainer');
+        const loader = document.getElementById('loadingIndicator');
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+
+        // --- Init ---
+        window.onload = () => {
+            searchInput.value = '';
+            fetchWallpapers('', 1);
+        };
+
+        // --- Events ---
+        document.getElementById('searchForm').onsubmit = (e) => {
+            e.preventDefault();
+            currentQuery = searchInput.value.trim();
+            currentPage = 1;
+            grid.innerHTML = '';
+            fetchWallpapers(currentQuery, 1);
+        };
+
+        function toggleCategory(cat) {
+            currentCategories = cat;
+            document.querySelectorAll('[id^="cat_"]').forEach(b => b.classList.remove('active'));
+            document.getElementById(`cat_${cat}`).classList.add('active');
+            currentPage = 1;
+            grid.innerHTML = '';
+            fetchWallpapers(currentQuery, 1);
+        }
+
+        // --- Fetching ---
+        async function fetchWallpapers(query, page) {
+            if (isFetching) return;
+            isFetching = true;
+            loader.classList.remove('hidden');
+
+            try {
+                // We use AllOrigins to bypass basic blocking if direct fetch fails
+                const params = new URLSearchParams({
+                    q: query,
+                    page: page,
+                    categories: currentCategories,
+                    purity: '100', // SFW only
+                    sorting: query ? 'relevance' : 'toplist',
+                    atleast: '1920x1080'
+                });
+
+                // Try direct first, fallback to proxy
+                let data;
+                try {
+                    const res = await fetch(`${API_BASE}?${params}`);
+                    data = await res.json();
+                } catch (e) {
+                    console.log("Direct API failed, trying proxy...");
+                    const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`${API_BASE}?${params}`)}`);
+                    const json = await proxyRes.json();
+                    data = JSON.parse(json.contents);
+                }
+
+                if (data && data.data) renderWallpapers(data.data);
+
+            } catch (e) {
+                console.error(e);
+                showToast("Connection Error", true);
+            } finally {
+                isFetching = false;
+                loader.classList.add('hidden');
+            }
+        }
+
+        function renderWallpapers(list) {
+            list.forEach(wp => {
+                const card = document.createElement('div');
+                card.className = 'group relative rounded-2xl overflow-hidden bg-dark-card border border-white/5 aspect-[16/10] cursor-pointer hover:-translate-y-1 transition-transform duration-300';
+
+                card.innerHTML = `
+                    <img src="${wp.thumbs.large}" class="w-full h-full object-cover" loading="lazy">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <button class="bg-brand-600 text-white p-3 rounded-xl font-bold text-xs" onclick="event.stopPropagation(); downloadImage('${wp.path}', '${wp.id}')">
+                            DOWNLOAD
+                        </button>
+                    </div>
+                    <span class="absolute top-2 right-2 bg-black/60 text-white text-[10px] px-2 py-1 rounded font-bold backdrop-blur-sm">${wp.resolution}</span>
+                `;
+
+                card.onclick = () => openPreview(wp.path, wp.id);
+                grid.appendChild(card);
+            });
+        }
+
+        // --- Modal ---
+        function openPreview(url, id) {
+            modalImg.src = url;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Re-bind download button
+            const btn = document.getElementById('modalDownloadBtn');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.onclick = () => downloadImage(url, id);
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            modalImg.src = '';
+        }
+
+        // --- CORE DOWNLOAD FIX (Multi-Proxy) ---
+        async function downloadImage(url, id) {
+            // 1. Determine Extension
+            let extension = 'jpg';
+            if (url.includes('.png')) extension = 'png';
+            if (url.includes('.gif')) extension = 'gif';
+
+            // 2. Define Proxies to try
+            // We rotate through these if one fails/times out
+            const proxies = [
+                // Strategy A: CORSProxy.io (Often fastest/most reliable for binary)
+                (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+                // Strategy B: AllOrigins ('raw' param is strictly required)
+                (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+                // Strategy C: CodeTabs (Good fallback)
+                (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+            ];
+
+            let blob = null;
+            let success = false;
+
+            // 3. Attempt Download loop
+            for (let i = 0; i < proxies.length; i++) {
+                try {
+                    showToast(`Trying Server ${i + 1}...`, false, true);
+
+                    const proxyUrl = proxies[i](url);
+                    const response = await fetch(proxyUrl);
+
+                    if (!response.ok) throw new Error(`Server ${i + 1} returned ${response.status}`);
+
+                    blob = await response.blob();
+
+                    // CRITICAL CHECK: Verify it is actually an image!
+                    if (!blob.type.startsWith('image/')) {
+                        console.warn(`Server ${i + 1} returned non-image: ${blob.type}`);
+                        throw new Error(`Invalid content type: ${blob.type}`);
+                    }
+
+                    if (blob.size < 1000) {
+                        throw new Error("File too small");
+                    }
+
+                    success = true;
+                    break; // We got it!
+                } catch (e) {
+                    console.warn(`Proxy ${i + 1} failed:`, e);
+                    // Continue to next proxy
+                }
+            }
+
+            // 4. Handle Result
+            if (success && blob) {
+                try {
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = blobUrl;
+                    a.download = `Insideout-${id}.${extension}`;
+
+                    document.body.appendChild(a);
+                    a.click();
+
+                    // Cleanup
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(blobUrl);
+                        document.body.removeChild(a);
+                    }, 100);
+
+                    showToast("Saved to Device!", false);
+                } catch (saveError) {
+                    console.error("Save error:", saveError);
+                    showToast("Error saving file.", true);
+                }
+            } else {
+                // All proxies failed
+                console.error("All proxies failed for url:", url);
+                showToast("Download failed. Opening in new tab...", true);
+                setTimeout(() => window.open(url, '_blank'), 1500);
+            }
+        }
+
+        // --- Utilities ---
+        window.onscroll = () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                if (!isFetching) {
+                    currentPage++;
+                    fetchWallpapers(currentQuery, currentPage);
+                }
+            }
+        };
+
+        function showToast(msg, isError = false, sticky = false) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            document.getElementById('toastTitle').innerText = isError ? "Error" : "System";
+            document.getElementById('toastIcon').className = isError ? "ph ph-warning text-red-400 text-xl" : "ph ph-check text-green-400 text-xl";
+            t.classList.remove('translate-y-32');
+            if (!sticky) setTimeout(() => t.classList.add('translate-y-32'), 3000);
+        }
+    </script>
+</body>
+
+</html>

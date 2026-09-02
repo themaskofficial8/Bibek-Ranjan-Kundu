@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free QR Code Generator - Links, WiFi, VCards - Insideout.bond</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout.bond">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta name="description"
+        content="Free Online QR Code Generator. Create secure QR codes for website links, WiFi networks, VCards, and emails instantly. No sign-up required, safe and easy to use.">
+    <meta name="keywords"
+        content="qr code generator, free qr code, secure qr generator, wifi qr code, vcard qr code, Insideout.bond, online qr tool">
+    <link rel="canonical" href="https://insideout.bond/Tools/qr-generator.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insideout.bond/Tools/qr-generator.html">
+    <meta property="og:title" content="Free QR Code Generator - Insideout.bond">
+    <meta property="og:description" content="Generate high-quality QR codes for links, WiFi, and more instantly.">
+    <meta property="og:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://insideout.bond/Tools/qr-generator.html">
+    <meta property="twitter:title" content="Free QR Code Generator - Insideout.bond">
+    <meta property="twitter:description" content="Generate high-quality QR codes for links, WiFi, and more instantly.">
+    <meta property="twitter:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* Custom styles to smooth out transitions */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-btn.active {
+            background-color: #2563eb;
+            /* blue-600 */
+            color: white;
+            border-color: #2563eb;
+        }
+
+        /* Hide scrollbar for tab navigation */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* QR container styling */
+        #qrcode img,
+        #qrcode canvas {
+            margin: auto;
+            border: 8px solid white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1605V9LS1K');
+</script>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Insideout QR Code Generator",
+  "operatingSystem": "Web",
+  "applicationCategory": "MultimediaApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Insideout.bond"
+  },
+  "description": "A versatile and secure web-based QR code generator for URLs, WiFi credentials, VCards, and email templates."
+}
+</script>
+
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 md:py-12 flex flex-col items-center gap-12">
+
+        <!-- SECTION 1: The Application -->
+        <main class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 z-10">
+
+            <!-- Header -->
+            <header class="bg-slate-900 text-white p-6 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+                </div>
+                <i class="ph ph-qr-code text-5xl mb-2 text-blue-400"></i>
+                <h1 class="text-2xl font-bold">QR Generator - Insideout.bond</h1>
+                <p class="text-slate-400 text-sm">Create secure QR codes for Links, WiFi, Contacts & more</p>
+            </header>
+
+            <!-- Tab Navigation -->
+            <div class="border-b border-slate-200 bg-slate-50">
+                <div class="flex overflow-x-auto no-scrollbar py-2 px-1 gap-1">
+                    <button onclick="switchTab('url')" id="tab-url"
+                        class="tab-btn active flex-none px-6 py-2 rounded-full font-medium text-sm text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                        <i class="ph ph-link text-lg"></i> URL
+                    </button>
+                    <button onclick="switchTab('contact')" id="tab-contact"
+                        class="tab-btn flex-none px-6 py-2 rounded-full font-medium text-sm text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                        <i class="ph ph-user text-lg"></i> Contact
+                    </button>
+                    <button onclick="switchTab('wifi')" id="tab-wifi"
+                        class="tab-btn flex-none px-6 py-2 rounded-full font-medium text-sm text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                        <i class="ph ph-wifi-high text-lg"></i> WiFi
+                    </button>
+                    <button onclick="switchTab('email')" id="tab-email"
+                        class="tab-btn flex-none px-6 py-2 rounded-full font-medium text-sm text-slate-600 hover:text-blue-600 transition-colors flex items-center justify-center gap-2 whitespace-nowrap">
+                        <i class="ph ph-envelope text-lg"></i> Email
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6">
+
+                <!-- Error Message -->
+                <div id="error-msg"
+                    class="hidden mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 flex items-center gap-2">
+                    <i class="ph ph-warning-circle text-lg"></i> <span>Please fill in all fields.</span>
+                </div>
+
+                <!-- URL Input -->
+                <div id="content-url" class="tab-content active space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Website
+                            URL</label>
+                        <div class="relative">
+                            <i class="ph ph-globe absolute left-3 top-3 text-slate-400 text-lg"></i>
+                            <input type="url" id="url-input" placeholder="https://example.com"
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Input -->
+                <div id="content-contact" class="tab-content space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">First
+                                Name</label>
+                            <input type="text" id="contact-first" placeholder="John"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Last
+                                Name</label>
+                            <input type="text" id="contact-last" placeholder="Doe"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Phone
+                            Number</label>
+                        <input type="tel" id="contact-phone" placeholder="+1 234 567 890"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email</label>
+                        <input type="email" id="contact-email" placeholder="john@example.com"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Company</label>
+                            <input type="text" id="contact-org" placeholder="Acme Inc"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Title</label>
+                            <input type="text" id="contact-title" placeholder="Manager"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Input -->
+                <div id="content-email" class="tab-content space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email
+                            Address</label>
+                        <div class="relative">
+                            <i class="ph ph-envelope absolute left-3 top-3 text-slate-400 text-lg"></i>
+                            <input type="email" id="email-addr" placeholder="recipient@example.com"
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Subject</label>
+                        <input type="text" id="email-subject" placeholder="Meeting Request"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Message
+                            Body</label>
+                        <textarea id="email-body" rows="3" placeholder="Hello..."
+                            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- WiFi Input -->
+                <div id="content-wifi" class="tab-content space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Network Name
+                            (SSID)</label>
+                        <div class="relative">
+                            <i class="ph ph-wifi-high absolute left-3 top-3 text-slate-400 text-lg"></i>
+                            <input type="text" id="wifi-ssid" placeholder="MyHomeNetwork"
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Security</label>
+                            <div class="relative">
+                                <i class="ph ph-shield-check absolute left-3 top-3 text-slate-400 text-lg"></i>
+                                <select id="wifi-type"
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all appearance-none">
+                                    <option value="WPA">WPA/WPA2</option>
+                                    <option value="WEP">WEP</option>
+                                    <option value="nopass">None</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Password</label>
+                            <div class="relative">
+                                <i class="ph ph-key absolute left-3 top-3 text-slate-400 text-lg"></i>
+                                <input type="text" id="wifi-pass" placeholder="Password123"
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 italic">Scanning this code will prompt compatible devices to join
+                        the network automatically.</p>
+                </div>
+
+                <!-- Generate Button -->
+                <button onclick="generateQR()"
+                    class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-95 transform transition-transform">
+                    <i class="ph ph-lightning text-xl"></i> Generate QR Code
+                </button>
+
+                <!-- Result Area -->
+                <div id="result-area" class="hidden mt-8 text-center border-t border-slate-100 pt-6 animate-fade-in">
+                    <div class="bg-slate-100 p-4 rounded-xl inline-block mb-4 shadow-inner">
+                        <div id="qrcode" class="flex justify-center"></div>
+                    </div>
+
+                    <div class="flex flex-col gap-2 justify-center items-center">
+                        <button onclick="downloadQR()"
+                            class="text-slate-600 hover:text-blue-600 font-medium text-sm flex items-center gap-2 px-4 py-2 hover:bg-slate-50 rounded-full transition-colors">
+                            <i class="ph ph-download-simple text-lg"></i> Download PNG
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Instructions -->
+            <div class="bg-slate-50 p-4 text-center border-t border-slate-200">
+                <p class="text-xs text-slate-400">
+                    <strong>How to use:</strong> Select a type, enter your details, and click Generate. Use your camera
+                    to scan.
+                </p>
+            </div>
+        </main>
+
+        <!-- SECTION 2: Description Content -->
+        <article
+            class="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12 text-slate-700 leading-relaxed">
+
+            <header class="mb-8 border-b border-slate-100 pb-8">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center gap-3">
+                    <i class="ph ph-info text-blue-600"></i> QR Code Generator
+                </h2>
+                <p class="text-lg text-slate-600">
+                    Turn any website link into a scannable graphic instantly. Our QR Code Generator at <span
+                        class="font-semibold text-blue-600">insideout.bond</span> is completely free, secure, and
+                    designed to work seamlessly on any device, whether you are using a mobile phone, tablet, or desktop
+                    computer.
+                </p>
+            </header>
+
+            <section class="mb-10">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="ph ph-magic-wand text-purple-500"></i> What this tool does
+                </h3>
+                <p class="mb-4">
+                    This online QR Code Generator converts a standard web address (URL) into a digital square barcode.
+                    Instead of typing out long, complicated web addresses, users simply scan the image with their
+                    smartphone camera to visit your link automatically.
+                </p>
+                <p class="mb-4">This is the most popular type of data to use because it is incredibly versatile. It is
+                    widely used to direct traffic to:</p>
+                <ul class="list-disc pl-6 space-y-2 marker:text-blue-500">
+                    <li><strong class="text-slate-800">Company Websites:</strong> For business cards and brochures.</li>
+                    <li><strong class="text-slate-800">Social Media Profiles:</strong> To grow your following on
+                        Instagram, LinkedIn, or Facebook.</li>
+                    <li><strong class="text-slate-800">Digital Menus:</strong> For restaurants and cafes wanting
+                        contactless ordering.</li>
+                    <li><strong class="text-slate-800">Product Pages:</strong> On packaging to show user manuals or
+                        video tutorials.</li>
+                    <li><strong class="text-slate-800">Event Registrations:</strong> On flyers and posters to streamline
+                        sign-ups.</li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="ph ph-steps text-green-500"></i> How to use it (Step-by-step)
+                </h3>
+                <p class="mb-4">Creating a custom code is fast and requires no technical skills. Follow these simple
+                    steps:</p>
+                <div class="space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                    <div class="flex gap-3">
+                        <span class="flex-none font-bold text-blue-600">Step 1:</span>
+                        <p>Open the QR Code Generator page and ensure the "URL" option is selected.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-none font-bold text-blue-600">Step 2:</span>
+                        <p>Copy and paste the full website address (e.g., https://www.your-site.com) into the input
+                            field. Make sure to include the "https://" part.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-none font-bold text-blue-600">Step 3:</span>
+                        <p>Customize the QR code styles (such as color, size, or frames) to match your brand if desired.
+                        </p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-none font-bold text-blue-600">Step 4:</span>
+                        <p>Click the generate button to create your unique code instantly.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-none font-bold text-blue-600">Step 5:</span>
+                        <p>Download the QR as an image file (PNG, JPG, or SVG) and place it on your print or digital
+                            materials.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="ph ph-thumbs-up text-amber-500"></i> Why this QR Code Generator is useful
+                </h3>
+                <p class="mb-4">
+                    The biggest advantage of using this tool is the "scan and go" experience. Typing a long web address
+                    into a mobile browser is frustrating and often leads to spelling errors. By using our QR Code
+                    Generator, you remove that friction, ensuring your audience lands exactly where you want them to be
+                    in seconds.
+                </p>
+                <p>
+                    This tool is especially valuable for offline-to-online marketing. For example, a real estate agent
+                    can place a code on a "For Sale" sign that links directly to a virtual tour of the property.
+                    Similarly, a retail store can put a code on a receipt asking customers to leave a Google review. It
+                    bridges the gap between the physical world and your digital content effectively.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="ph ph-check-circle text-teal-500"></i> Best practices and tips
+                </h3>
+                <p class="mb-4">To ensure your code scans perfectly every time, keep these tips in mind:</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="p-4 border border-slate-200 rounded-lg hover:border-blue-300 transition-colors">
+                        <h4 class="font-bold text-slate-900 mb-2">Check the Contrast</h4>
+                        <p class="text-sm">Always use a dark color for the QR pattern and a light color for the
+                            background. Dark black on white is the safest option.</p>
+                    </div>
+                    <div class="p-4 border border-slate-200 rounded-lg hover:border-blue-300 transition-colors">
+                        <h4 class="font-bold text-slate-900 mb-2">Size Matters</h4>
+                        <p class="text-sm">If printing on a small item like a business card, ensure the code is at least
+                            2cm x 2cm (0.8 inches).</p>
+                    </div>
+                    <div class="p-4 border border-slate-200 rounded-lg hover:border-blue-300 transition-colors">
+                        <h4 class="font-bold text-slate-900 mb-2">Test Before Printing</h4>
+                        <p class="text-sm">Always scan the code with at least two different smartphone models (e.g., an
+                            iPhone and an Android) before ordering a large print run.</p>
+                    </div>
+                    <div class="p-4 border border-slate-200 rounded-lg hover:border-blue-300 transition-colors">
+                        <h4 class="font-bold text-slate-900 mb-2">Mind the Placement</h4>
+                        <p class="text-sm">Do not place the QR code in the crease of a flyer or near the edge where it
+                            might get cut off.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="ph ph-question text-red-500"></i> FAQ
+                </h3>
+                <div class="divide-y divide-slate-100">
+                    <div class="py-4">
+                        <h4 class="font-bold text-slate-900 mb-1">Q1: Is this QR Code Generator free to use?</h4>
+                        <p class="text-slate-600">A1: Yes, you can generate QR codes for your URLs completely free of
+                            charge.</p>
+                    </div>
+                    <div class="py-4">
+                        <h4 class="font-bold text-slate-900 mb-1">Q2: Does the QR code expire?</h4>
+                        <p class="text-slate-600">A2: No. As long as the website link you entered remains active, the
+                            static code created by our QR Code Generator will work forever.</p>
+                    </div>
+                    <div class="py-4">
+                        <h4 class="font-bold text-slate-900 mb-1">Q3: Can I change the link after generating the code?
+                        </h4>
+                        <p class="text-slate-600">A3: For static QR codes, the link is fixed into the pattern. If you
+                            need to change the destination URL later, you will need to generate and print a new QR code.
+                        </p>
+                    </div>
+                    <div class="py-4">
+                        <h4 class="font-bold text-slate-900 mb-1">Q4: Will this work on both iPhone and Android devices?
+                        </h4>
+                        <p class="text-slate-600">A4: Absolutely. Modern cameras on both iOS and Android devices can
+                            scan these codes natively without needing a separate app.</p>
+                    </div>
+                    <div class="py-4">
+                        <h4 class="font-bold text-slate-900 mb-1">Q5: What is the best file format for printing?</h4>
+                        <p class="text-slate-600">A5: For professional printing (like banners or merchandise), we
+                            recommend downloading the SVG or high-resolution PNG format to ensure the lines stay crisp
+                            and clear.</p>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+    </div>
+
+    <script>
+        // --- State Management ---
+        let currentMode = 'url';
+        let qrCodeObj = null; // Store the QRCode instance
+
+        // --- Tab Switching Logic ---
+        function switchTab(mode) {
+            currentMode = mode;
+
+            // Hide all error messages
+            document.getElementById('error-msg').classList.add('hidden');
+            document.getElementById('result-area').classList.add('hidden');
+
+            // Update Tab UI
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${mode}`).classList.add('active');
+
+            // Update Content UI
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`content-${mode}`).classList.add('active');
+        }
+
+        // --- Generator Logic ---
+        function generateQR() {
+            const errorMsg = document.getElementById('error-msg');
+            const resultArea = document.getElementById('result-area');
+            const qrContainer = document.getElementById('qrcode');
+
+            let qrText = '';
+
+            // 1. Gather Data based on Mode
+            if (currentMode === 'url') {
+                const url = document.getElementById('url-input').value.trim();
+                if (!url) return showError('Please enter a valid URL.');
+                qrText = url;
+            }
+            else if (currentMode === 'contact') {
+                const fn = document.getElementById('contact-first').value.trim();
+                const ln = document.getElementById('contact-last').value.trim();
+                const phone = document.getElementById('contact-phone').value.trim();
+                const email = document.getElementById('contact-email').value.trim();
+                const org = document.getElementById('contact-org').value.trim();
+                const title = document.getElementById('contact-title').value.trim();
+
+                if (!fn && !ln && !org) return showError('Please enter at least a name or company.');
+
+                // vCard 3.0 Format
+                qrText = `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn};;;\nFN:${fn} ${ln}\nORG:${org}\nTITLE:${title}\nTEL;TYPE=CELL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+            }
+            else if (currentMode === 'email') {
+                const addr = document.getElementById('email-addr').value.trim();
+                const sub = document.getElementById('email-subject').value.trim();
+                const body = document.getElementById('email-body').value.trim();
+
+                if (!addr) return showError('Email address is required.');
+                // mailto:addr?subject=...&body=...
+                qrText = `mailto:${addr}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+            }
+            else if (currentMode === 'wifi') {
+                const ssid = document.getElementById('wifi-ssid').value.trim();
+                const type = document.getElementById('wifi-type').value;
+                const pass = document.getElementById('wifi-pass').value.trim();
+
+                if (!ssid) return showError('Network SSID is required.');
+                if (type !== 'nopass' && !pass) return showError('Password is required for secure networks.');
+
+                qrText = `WIFI:S:${ssid};T:${type};P:${pass};;`;
+            }
+
+            // 2. Clear previous errors and QR
+            errorMsg.classList.add('hidden');
+            qrContainer.innerHTML = ''; // Clear container
+
+            // 3. Generate new QR
+            setTimeout(() => {
+                qrCodeObj = new QRCode(qrContainer, {
+                    text: qrText,
+                    width: 200,
+                    height: 200,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                // Show result
+                resultArea.classList.remove('hidden');
+            }, 50);
+        }
+
+        // --- Helper: Show Error ---
+        function showError(msg) {
+            const el = document.getElementById('error-msg');
+            el.querySelector('span').textContent = msg;
+            el.classList.remove('hidden');
+        }
+
+        // --- Download Logic ---
+        function downloadQR() {
+            const qrContainer = document.getElementById('qrcode');
+            const img = qrContainer.querySelector('img');
+
+            if (img && img.src) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = `qrcode-${currentMode}-${Date.now()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                const canvas = qrContainer.querySelector('canvas');
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL("image/png");
+                    link.download = `qrcode-${currentMode}-${Date.now()}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    alert("QR Code not ready yet. Please try again.");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2563eb">
+    <title>JPG to PDF Converter - Insideout.bond</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout.bond">
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description"
+        content="Free Online JPG to PDF Converter. Convert your JPG, PNG, and WebP images to high-quality PDF documents instantly and securely in your browser. All processing happens locally for maximum privacy.">
+    <meta name="keywords"
+        content="jpg to pdf, image to pdf, pdf converter, secure pdf converter, browser-based converter, Insideout.bond, online image to pdf">
+    <link rel="canonical" href="https://insideout.bond/Tools/jpg-to-pdf-converter.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insideout.bond/Tools/jpg-to-pdf-converter.html">
+    <meta property="og:title" content="JPG to PDF Converter - Insideout.bond">
+    <meta property="og:description"
+        content="Convert your images to PDF instantly and securely. All processing happens locally in your browser.">
+    <meta property="og:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://insideout.bond/Tools/jpg-to-pdf-converter.html">
+    <meta property="twitter:title" content="JPG to PDF Converter - Insideout.bond">
+    <meta property="twitter:description"
+        content="Convert your images to PDF instantly and securely. All processing happens locally in your browser.">
+    <meta property="twitter:image" content="https://insideout.bond/Tools/images/logo.png">
+
+    <!-- AdSense -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Insideout JPG to PDF Converter",
+      "operatingSystem": "Web",
+      "applicationCategory": "MultimediaApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Insideout.bond"
+      },
+      "description": "A secure, browser-based tool to convert JPG, PNG, and WebP images into a single PDF document."
+    }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Scrollbar for image list */
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Drag over animation state */
+        .drag-active {
+            border-color: #3b82f6 !important;
+            background-color: #eff6ff !important;
+            transform: scale(1.02);
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #3b82f6;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 1s linear infinite;
+            /* Safari */
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Mobile Optimization for Hover States */
+        @media (hover: none) {
+            .group .overlay-controls {
+                opacity: 1 !important;
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-20">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-blue-600 text-white p-1.5 rounded-lg shadow-sm">
+                    <i data-lucide="file-image" class="w-6 h-6"></i>
+                </div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-500">
+                    JPG<span class="text-slate-700">to</span>PDF - Insideout.bond
+                </h1>
+            </div>
+            <div
+                class="hidden sm:flex items-center gap-2 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
+                <i data-lucide="shield-check" class="w-3 h-3"></i>
+                Secure Client-Side
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center justify-start pt-6 pb-12 px-4 sm:px-6">
+
+        <div class="w-full max-w-4xl space-y-6">
+
+            <!-- Description -->
+            <div class="text-center mb-6 sm:mb-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Convert Images to PDF</h2>
+                <p class="text-slate-600 text-sm sm:text-base max-w-lg mx-auto">
+                    Drag and drop your photos here to create a high-quality PDF.
+                    <br class="hidden sm:block">Works securely on your device.
+                </p>
+            </div>
+
+            <!-- Upload Area -->
+            <div id="drop-zone"
+                class="relative border-2 border-dashed border-slate-300 rounded-2xl bg-white p-8 sm:p-12 text-center transition-all duration-200 ease-in-out cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 hover:shadow-md group">
+                <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                    multiple accept="image/jpeg, image/png, image/webp" title="Upload images">
+
+                <div class="flex flex-col items-center pointer-events-none z-10 relative">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                        <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-700">Click or Drag images here</h3>
+                    <p class="text-sm text-slate-400 mt-2">JPG, PNG, WebP supported</p>
+                </div>
+            </div>
+
+            <!-- Error Message Container -->
+            <div id="error-container"
+                class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-sm animate-fade-in"
+                role="alert">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                    <p class="font-bold">Error</p>
+                </div>
+                <p id="error-message" class="text-sm mt-1 ml-7">Something went wrong.</p>
+            </div>
+
+            <!-- Image Preview Section (Hidden by default) -->
+            <div id="preview-section"
+                class="hidden bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden flex flex-col">
+                <div
+                    class="px-4 sm:px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 backdrop-blur-sm sticky top-0 z-10">
+                    <h3 class="font-bold text-slate-700 flex items-center gap-2 text-sm sm:text-base">
+                        <i data-lucide="layers" class="w-4 h-4 text-blue-500"></i>
+                        Images (<span id="image-count">0</span>)
+                    </h3>
+                    <button onclick="clearAllImages()"
+                        class="text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-full transition-colors">
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- Grid of images -->
+                <div id="image-list"
+                    class="p-4 sm:p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 max-h-[60vh] overflow-y-auto custom-scrollbar bg-slate-50/30">
+                    <!-- Images injected here via JS -->
+                </div>
+
+                <!-- Action Bar -->
+                <div
+                    class="px-4 sm:px-6 py-4 bg-white border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+
+                    <div
+                        class="w-full sm:w-auto flex items-center gap-3 text-sm text-slate-700 bg-slate-100 p-1.5 rounded-lg border border-slate-200">
+                        <span class="pl-2 font-medium whitespace-nowrap"><i data-lucide="maximize"
+                                class="w-3 h-3 inline mr-1"></i>Size:</span>
+                        <select id="page-size"
+                            class="bg-white border-0 text-slate-900 text-sm rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none block w-full sm:w-32 py-1.5 px-2.5 shadow-sm cursor-pointer">
+                            <option value="a4">A4 Document</option>
+                            <option value="letter">Letter</option>
+                            <option value="fit">Fit to Image</option>
+                        </select>
+                    </div>
+
+                    <button id="convert-btn" onclick="convertToPDF()"
+                        class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                        <span>Convert to PDF</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEO Content & FAQ Section -->
+            <section class="mt-12 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-10">
+                <div class="max-w-3xl mx-auto space-y-10">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6">About JPG to PDF Converter</h2>
+                        <p class="text-slate-600 leading-relaxed mb-6">
+                            Convert your digital memories and documents into professional PDF files with the
+                            <strong>Insideout JPG to PDF Converter</strong>. Our tool is optimized for speed and
+                            privacy, ensuring that your sensitive images never leave your computer.
+                        </p>
+                        <div class="grid sm:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-bold text-blue-600 flex items-center gap-2">
+                                    <i data-lucide="help-circle" class="w-5 h-5"></i>
+                                    How to Use
+                                </h3>
+                                <ul class="space-y-3 text-sm text-slate-600">
+                                    <li class="flex gap-2"><strong>01.</strong> Drag and drop your images or click the
+                                        upload area.</li>
+                                    <li class="flex gap-2"><strong>02.</strong> Use arrows to reorder pages as you like.
+                                    </li>
+                                    <li class="flex gap-2"><strong>03.</strong> Select your desired page format (A4,
+                                        Letter, etc.).</li>
+                                    <li class="flex gap-2"><strong>04.</strong> Hit the "Convert to PDF" button to
+                                        download.</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-bold text-blue-600 flex items-center gap-2">
+                                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                    Features
+                                </h3>
+                                <ul class="space-y-3 text-sm text-slate-600">
+                                    <li>• 100% Privacy: Local processing on your device.</li>
+                                    <li>• Multiple Formats: Supports JPG, PNG, and WebP.</li>
+                                    <li>• Custom Layouts: Flexible page sizing options.</li>
+                                    <li>• No Limits: Batch convert as many images as you need.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-10 border-t border-slate-100">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-8 text-center">Frequently Asked Questions</h2>
+                        <div class="grid gap-4">
+                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2">Are my photos uploaded to a server?</h4>
+                                <p class="text-sm text-slate-600">No. Your images are processed entirely in your browser
+                                    using JavaScript. No data is sent to our servers, making it one of the most secure
+                                    converters online.</p>
+                            </div>
+                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2">Can I convert many images into a single PDF?
+                                </h4>
+                                <p class="text-sm text-slate-600">Yes! You can upload dozens of images at once and our
+                                    tool will combine them into a single, organized PDF document.</p>
+                            </div>
+                            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-2">Does this work on smartphones?</h4>
+                                <p class="text-sm text-slate-600">Yes, our tool is fully responsive and works perfectly
+                                    on iPhone and Android mobile browsers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pb-8">
+        <p class="text-center text-slate-400/60 text-xs mt-6">
+            &copy; 2026 Insideout.bond | A platform of innovation.
+        </p>
+    </footer>
+
+    <!-- Templates -->
+    <template id="image-card-template">
+        <div
+            class="group relative aspect-[3/4] bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+            <!-- Image -->
+            <img src="" alt="Preview" class="w-full h-full object-cover">
+
+            <!-- Overlay Controls -->
+            <div
+                class="overlay-controls absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
+
+                <div class="flex items-center gap-2">
+                    <button
+                        class="move-up-btn p-2 bg-white/90 text-slate-700 rounded-full hover:bg-white hover:text-blue-600 shadow-lg backdrop-blur-sm transition-transform hover:scale-110 active:scale-90"
+                        title="Move Left/Up" aria-label="Move Image Left">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+
+                    <button
+                        class="move-down-btn p-2 bg-white/90 text-slate-700 rounded-full hover:bg-white hover:text-blue-600 shadow-lg backdrop-blur-sm transition-transform hover:scale-110 active:scale-90"
+                        title="Move Right/Down" aria-label="Move Image Right">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <button
+                    class="delete-btn px-4 py-2 bg-red-500/90 text-white rounded-full hover:bg-red-600 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-1 font-medium text-xs"
+                    title="Remove" aria-label="Remove Image">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i> Remove
+                </button>
+
+            </div>
+
+            <!-- Filename Footer -->
+            <div class="absolute bottom-0 left-0 right-0 bg-white/95 p-1.5 border-t border-slate-100">
+                <p
+                    class="text-[10px] sm:text-xs text-center truncate font-medium text-slate-600 image-name select-none">
+                    Filename.jpg
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // --- State Management ---
+        let imagesData = []; // Stores objects: { file: File, dataUrl: string, width: number, height: number }
+
+        // --- DOM Elements ---
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewSection = document.getElementById('preview-section');
+        const imageList = document.getElementById('image-list');
+        const imageCount = document.getElementById('image-count');
+        const convertBtn = document.getElementById('convert-btn');
+        const errorContainer = document.getElementById('error-container');
+        const errorMessage = document.getElementById('error-message');
+        const pageSizeSelect = document.getElementById('page-size');
+
+        // --- Event Listeners ---
+
+        // Initial Icon Render
+        lucide.createIcons();
+
+        // Drag & Drop Styling
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('drag-active');
+            }, false);
+        });
+
+        // File Input Handling
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFiles(e.target.files);
+            }
+            // Reset value so selecting the same file triggers change again
+            fileInput.value = '';
+        });
+
+        // --- Core Functions ---
+
+        async function handleFiles(files) {
+            hideError();
+            if (!files.length) return;
+
+            // Optional: Simple visual feedback for processing start could go here
+
+            const processingPromises = Array.from(files).map(processFile);
+
+            try {
+                const newImages = await Promise.all(processingPromises);
+                // Filter out any nulls from failed reads or invalid types
+                const validImages = newImages.filter(img => img !== null);
+
+                if (validImages.length === 0 && files.length > 0) {
+                    showError("No valid images found. Please use JPG, PNG, or WebP.");
+                    return;
+                }
+
+                imagesData = [...imagesData, ...validImages];
+                updateUI();
+
+                // Auto-scroll to bottom of list to show new images
+                setTimeout(() => {
+                    const lastImage = imageList.lastElementChild;
+                    if (lastImage) lastImage.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+
+            } catch (err) {
+                console.error(err);
+                showError("Error processing images. Please try again.");
+            }
+        }
+
+        function processFile(file) {
+            return new Promise((resolve) => {
+                // Strict type check
+                if (!file.type.match('image/(jpeg|png|webp)')) {
+                    resolve(null);
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve({
+                            file: file,
+                            dataUrl: e.target.result,
+                            width: img.naturalWidth || img.width, // Robust width check
+                            height: img.naturalHeight || img.height,
+                            id: Date.now() + Math.random().toString(16).slice(2)
+                        });
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = e.target.result;
+                };
+
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateUI() {
+            // Toggle visibility with animation
+            if (imagesData.length > 0) {
+                previewSection.classList.remove('hidden');
+                // Small trick to trigger reflow for animation if we added classes, 
+                // but simpler just to show/hide for now.
+                imageCount.textContent = imagesData.length;
+            } else {
+                previewSection.classList.add('hidden');
+            }
+
+            renderGrid();
+        }
+
+        function renderGrid() {
+            imageList.innerHTML = '';
+            const template = document.getElementById('image-card-template');
+
+            imagesData.forEach((imgObj, index) => {
+                const clone = template.content.cloneNode(true);
+
+                // Set Image
+                const imgEl = clone.querySelector('img');
+                imgEl.src = imgObj.dataUrl;
+
+                // Set Name
+                const nameEl = clone.querySelector('.image-name');
+                nameEl.textContent = imgObj.file.name;
+
+                // Bind Buttons
+                const deleteBtn = clone.querySelector('.delete-btn');
+                deleteBtn.onclick = (e) => { e.stopPropagation(); removeImage(index); };
+
+                const moveUpBtn = clone.querySelector('.move-up-btn');
+                const moveDownBtn = clone.querySelector('.move-down-btn');
+
+                // Logic to show/hide move buttons based on position
+                if (index === 0) {
+                    moveUpBtn.classList.add('opacity-30', 'cursor-not-allowed');
+                    moveUpBtn.disabled = true;
+                } else {
+                    moveUpBtn.onclick = (e) => { e.stopPropagation(); moveImage(index, -1); };
+                }
+
+                if (index === imagesData.length - 1) {
+                    moveDownBtn.classList.add('opacity-30', 'cursor-not-allowed');
+                    moveDownBtn.disabled = true;
+                } else {
+                    moveDownBtn.onclick = (e) => { e.stopPropagation(); moveImage(index, 1); };
+                }
+
+                imageList.appendChild(clone);
+            });
+
+            // Re-initialize icons for new elements
+            lucide.createIcons();
+        }
+
+        function removeImage(index) {
+            imagesData.splice(index, 1);
+            updateUI();
+        }
+
+        function clearAllImages() {
+            if (imagesData.length > 0 && confirm('Remove all images?')) {
+                imagesData = [];
+                updateUI();
+            }
+        }
+
+        function moveImage(index, direction) {
+            if (index + direction < 0 || index + direction >= imagesData.length) return;
+
+            const temp = imagesData[index];
+            imagesData[index] = imagesData[index + direction];
+            imagesData[index + direction] = temp;
+
+            renderGrid();
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorContainer.classList.remove('hidden');
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                errorContainer.classList.add('hidden');
+            }, 5000);
+        }
+
+        function hideError() {
+            errorContainer.classList.add('hidden');
+        }
+
+        // --- PDF Generation Logic ---
+
+        async function convertToPDF() {
+            if (imagesData.length === 0) return;
+
+            // Ensure jsPDF is available
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                showError("PDF library loading... please wait a moment and try again.");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+
+            // Set Loading State
+            const originalBtnContent = convertBtn.innerHTML;
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = `<div class="loader"></div> <span class="ml-2 font-medium">Generating...</span>`;
+
+            // Allow UI to update before heavy processing
+            await new Promise(r => setTimeout(r, 100));
+
+            try {
+                const setting = pageSizeSelect.value;
+                let pdf;
+
+                // --- Initialization ---
+                if (setting === 'fit') {
+                    // Initialize with First Image Dims
+                    pdf = new jsPDF({
+                        orientation: imagesData[0].width > imagesData[0].height ? 'l' : 'p',
+                        unit: 'px',
+                        format: [imagesData[0].width, imagesData[0].height]
+                    });
+                } else {
+                    // Initialize A4/Letter
+                    pdf = new jsPDF('p', 'mm', setting);
+                }
+
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                // --- Loop through images ---
+                imagesData.forEach((imgData, index) => {
+                    if (index > 0) {
+                        if (setting === 'fit') {
+                            pdf.addPage(
+                                [imgData.width, imgData.height],
+                                imgData.width > imgData.height ? 'l' : 'p'
+                            );
+                        } else {
+                            pdf.addPage();
+                        }
+                    }
+
+                    // --- Format Detection ---
+                    let format = 'JPEG';
+                    if (imgData.file.type === 'image/png') format = 'PNG';
+                    else if (imgData.file.type === 'image/webp') format = 'WEBP';
+
+                    // --- Dimensions Calculation ---
+                    if (setting === 'fit') {
+                        // Fit Mode (1:1)
+                        pdf.addImage(
+                            imgData.dataUrl,
+                            format,
+                            0,
+                            0,
+                            imgData.width,
+                            imgData.height,
+                            null,
+                            'FAST'
+                        );
+                    } else {
+                        // Standard Page Mode (A4/Letter)
+                        const imgWidth = imgData.width;
+                        const imgHeight = imgData.height;
+
+                        const margin = 10; // mm
+                        const availableWidth = pageWidth - (margin * 2);
+                        const availableHeight = pageHeight - (margin * 2);
+
+                        const widthRatio = availableWidth / imgWidth;
+                        const heightRatio = availableHeight / imgHeight;
+
+                        const ratio = Math.min(widthRatio, heightRatio);
+
+                        const finalWidth = imgWidth * ratio;
+                        const finalHeight = imgHeight * ratio;
+
+                        const x = (pageWidth - finalWidth) / 2;
+                        const y = (pageHeight - finalHeight) / 2;
+
+                        pdf.addImage(
+                            imgData.dataUrl,
+                            format,
+                            x,
+                            y,
+                            finalWidth,
+                            finalHeight,
+                            null,
+                            'FAST'
+                        );
+                    }
+                });
+
+                pdf.save('converted-images.pdf');
+
+            } catch (err) {
+                console.error("PDF Generation failed", err);
+                showError("Failed to generate PDF. Try fewer images or check for corrupted files.");
+            } finally {
+                // Reset Button
+                convertBtn.disabled = false;
+                convertBtn.innerHTML = originalBtnContent;
+                lucide.createIcons();
+            }
+        }
+
+    </script>
+</body>
+
+</html>
