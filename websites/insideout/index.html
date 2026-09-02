@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insideout.bond</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+
+    <meta name="application-name" content="Insideout">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Mobile-only indicator styles (simple white background, black text, with gap) -->
+
+
+
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1605V9LS1K');
+</script>
+
+<body class="min-h-screen antialiased">
+
+    <!-- Header / Navigation Bar (Simplified and Logo Color Changed) -->
+    <header class="fixed top-0 w-full z-50 bg-primary-bg/95 backdrop-blur-sm shadow-md border-b border-border-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo: "Insideout" in #9EA3A3 -->
+                <div class="flex-shrink-0" style="color: #9EA3A3">
+                    <a href="index.html" class="text-2xl font-bold text-logo-gray">Insideout</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-[#9EA3A3]">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html"
+                        class="text-blue-600 font-bold transition duration-150 border-b-2 border-blue-600">Home </a>
+                    <a href="tools.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Tools</a>
+                    <a href="devtools.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Dev
+                        Tools</a>
+                    <a href="games.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Games </a>
+
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile-only indicator -->
+    <!-- Mobile Menu Container -->
+    <div id="mobile-menu"
+        class="hidden md:hidden bg-white/95 backdrop-blur-sm border-b border-gray-100 fixed top-16 left-0 w-full shadow-lg z-40">
+        <nav class="flex flex-col p-4 space-y-4 text-[#111827]">
+            <a href="index.html"
+                class="text-sm font-bold text-blue-600 bg-blue-50 rounded-lg px-2 py-1.5 transition-colors">Home</a>
+            <a href="tools.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Tools</a>
+            <a href="games.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Games</a>
+            <a href="devtools.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Dev Tools</a>
+
+        </nav>
+    </div>
+
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24 text-center bg-primary-bg">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tighter text-text-dark">
+                    The Next Evolution of Digital Tools
+                </h1>
+
+                <h1 style="margin-top: 25px; font-size: 47px; font-weight: bold; color: #13ffe7;">
+                    <span class="typewriter-text"></span><span class="cursor">&nbsp;</span>
+                </h1>
+
+                <div class="mt-8 flex justify-center space-x-4">
+
+
+                    <a href="tools.html"
+                        class="inline-flex items-center px-6 py-3 border border-border-light text-base font-semibold rounded-lg text-text-dark hover:bg-secondary-bg transition duration-300"
+                        style="color: rgb(0, 0, 0); background-color:  #f5f113;">
+                        Explore Tools
+                    </a>
+                    <a href="games.html"
+                        class="inline-flex items-center px-6 py-3 border border-border-light text-base font-semibold rounded-lg text-text-dark hover:bg-secondary-bg transition duration-300"
+                        style="color: white; background-color:  #b805b8;">
+                        Games
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Features Section (Icons and Border Colors Updated) -->
+        <section id="products" class="py-16 bg-secondary-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12 text-text-dark">Our Insideout Tools</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- CARD 1: MAGIC IMAGE ENHANCER -->
+                    <a href="Tools/magic-enhancer.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Tools/images/image enhancer.png" alt="Magic Image Enhancer"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-blue-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="zap" class="w-6 h-6 text-blue-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Magic Enhancer</h3>
+                                    <p class="text-xs text-gray-300"> Magic Image Processing</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 2: THUMBNAIL DOWNLOADER -->
+                    <a href="Tools/ytthumbnailextractor.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Tools/images/td.png" alt="Thumbnail Downloader"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-red-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="send" class="w-6 h-6 text-red-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Thumbnail Pro</h3>
+                                    <p class="text-xs text-gray-300">YouTube Utilities</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 3: QR GENERATOR -->
+                    <a href="Tools/qr-generator.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Tools/images/qr generator.png" alt="QR Generator"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-green-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="qr-code" class="w-6 h-6 text-green-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">QR Generator</h3>
+                                    <p class="text-xs text-gray-300">Connectivity Tool</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Stats/Trust Section (Numbers Color Updated) -->
+                <div class="mt-16 pt-10 border-t border-border-light">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div>
+                            <p class="text-3xl font-bold text-cta-blue">13</p>
+                            <p class="text-sm text-text-muted-dark mt-1">Tools</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-cta-blue">5+ </p>
+                            <p class="text-sm text-text-muted-dark mt-1"> Tools Use weekly</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-cta-blue">1+</p>
+                            <p class="text-sm text-text-muted-dark mt-1">Tool Add Everyweek</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-cta-blue">24/7</p>
+                            <p class="text-sm text-text-muted-dark mt-1">Available </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section (Checkmark and Button Colors Updated) -->
+        <section id="devtools" class="py-16 bg-primary-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="md:flex md:items-center md:justify-between space-y-8 md:space-y-0">
+                    <div class="md:w-1/2">
+                        <h2 class="text-4xl font-extrabold text-text-dark">Tools for Developers</h2>
+                        <p class="mt-4 text-text-muted-dark">Our Tools are simple, powerful, and well-documented. Spend
+                            less, time integrating.</p>
+                        <ul class="mt-6 space-y-3 text-text-dark">
+                            <li class="flex items-center">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-cta-blue mr-2"></i>
+                                Instant Result
+                            </li>
+
+                            <li class="flex items-center">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-cta-blue mr-2"></i>
+                                Ready-to-use
+                            </li>
+                        </ul>
+                        <!-- Secondary Button (Updated Color: cta-blue) -->
+                        <a href="devtools.html"
+                            class="mt-8 inline-flex items-center px-6 py-3 border border-cta-blue text-base font-semibold rounded-lg text-cta-blue hover:bg-cta-blue hover:text-white transition duration-300"
+                            style="background-color: #000000; color: #fff;">
+                            View Dev Tools <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- ads 1 -->
+        <!-- <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+            crossorigin="anonymous"></script> -->
+        
+        <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2280832801216201"
+            data-ad-slot="9910310222" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script> -->
+        <!-- ads 1  end-->
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-text-dark">Get in Touch</h2>
+                    <p class="mt-4 text-text-muted-dark max-w-2xl mx-auto">
+                        Have a question, feedback, or a tool request? Reach out to us directly through any of the
+                        channels below.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+
+                    <!-- Email Card -->
+                    <a href="mailto:insideoutwebservices@gmail.com"
+                        class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex items-center gap-6 group block">
+                        <div class="p-4 bg-blue-50 rounded-xl text-blue-500 group-hover:bg-blue-100 transition-colors">
+                            <i data-lucide="mail" class="w-8 h-8"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                Direct Email</h4>
+                            <p class="text-sm text-gray-500 mt-1">insideoutwebservices@gmail.com</p>
+                        </div>
+                        <i data-lucide="arrow-right"
+                            class="w-5 h-5 text-gray-300 group-hover:text-blue-500 transition-all transform group-hover:translate-x-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-400 pt-16 pb-8 border-t-4 border-logo-gray">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                    <div class="space-y-4">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+
+                            Insideout
+                        </h2>
+                        <p class="text-sm max-w-xs">
+                            Empowering users with privacy-focused web utilities and innovation since 2025.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Navigation</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="index.html" class="hover:text-logo-gray transition-colors">Home Page</a></li>
+                            <li><a href="tools.html" class="hover:text-logo-gray transition-colors">All Tools</a></li>
+                            <li><a href="contact.html" class="hover:text-logo-gray transition-colors">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Legal</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="privacy-policy.html" class="hover:text-logo-gray transition-colors">Privacy
+                                    Policy</a></li>
+                            <li><a href="terms-of-service.html" class="hover:text-logo-gray transition-colors">Terms of
+                                    Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pt-8 border-t border-gray-800 text-center">
+                    <p class="text-xs">&copy; 2025 Insideout.bond | A platform of innovation.</p>
+                    <div class="mt-4 flex justify-center gap-6">
+
+                        <a href="mailto:insideoutwebservices@gmail.com" class="hover:text-white transition-colors">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Initialize Lucide Icons -->
+        <script>
+            window.addEventListener('load', () => {
+                lucide.createIcons();
+            });
+
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.onclick = () => {
+                    mobileMenu.classList.toggle('hidden');
+                };
+            }
+        </script>
+        <script>
+
+            const words = ['Thumbnail Downloader', 'JSON Formatter', 'Image Compressor', 'Image Enhancer', 'QR Code Generator', 'Text Styler', 'Tic Tac Toe'];
+
+            const textElement = document.querySelector('.typewriter-text');
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typeSpeed = 150;
+
+            function typeEffect() {
+                const currentWord = words[wordIndex];
+
+                if (isDeleting) {
+
+                    textElement.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                    typeSpeed = 50;
+                } else {
+
+                    textElement.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                    typeSpeed = 150; // টাইপ করার সময় নরমাল স্পিড
+                }
+
+                // যদি পুরো শব্দ টাইপ করা শেষ হয়
+                if (!isDeleting && charIndex === currentWord.length) {
+                    isDeleting = true;
+                    typeSpeed = 2000; // শব্দ শেষ হলে ২ সেকেন্ড অপেক্ষা করবে
+                }
+                // যদি পুরো শব্দ মুছে ফেলা শেষ হয়
+                else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex++;
+                    typeSpeed = 500; // নতুন শব্দ শুরুর আগে একটু বিরতি
+
+                    // সব শব্দ শেষ হলে আবার শুরু থেকে লুপ হবে
+                    if (wordIndex === words.length) {
+                        wordIndex = 0;
+                    }
+                }
+
+                setTimeout(typeEffect, typeSpeed);
+            }
+
+            // এনিমেশন শুরু করুন
+            document.addEventListener('DOMContentLoaded', typeEffect);
+        </script>
+</body>
+
+
+</html>

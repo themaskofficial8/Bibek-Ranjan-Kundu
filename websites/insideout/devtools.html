@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insideout</title>
+    <!-- Placeholder for favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration to match your custom class names -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-bg': '#000000',
+                        'secondary-bg': '#050505',
+                        'cta-blue': '#3b82f6',
+                        'border-light': '#333333',
+                        'text-dark': '#ffffff',
+                        'text-muted-dark': '#a3a3a3',
+                        'logo-gray': '#9EA3A3',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- CORE PAGE STYLES --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- CANVAS BACKGROUND STYLES --- */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Behind everything */
+        }
+
+        /* Ensure links/buttons are clickable over canvas */
+        main,
+        header,
+        footer {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1605V9LS1K');
+</script>
+
+<body class="antialiased">
+
+    <!-- NEW CANVAS BACKGROUND -->
+    <canvas id="bgCanvas"></canvas>
+
+    <header class="fixed top-0 w-full z-50 bg-primary-bg/95 backdrop-blur-sm shadow-md border-b border-border-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo: "Insideout" in #9EA3A3 -->
+                <div class="flex-shrink-0" style="color: #9EA3A3">
+                    <a href="index.html" class="text-2xl font-bold text-logo-gray">Insideout</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-[#9EA3A3]">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Home</a>
+                    <a href="tools.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Tools</a>
+                    <a href="devtools.html"
+                        class="text-blue-600 font-bold transition duration-150 border-b-2 border-blue-600">Dev
+                        Tools</a>
+                    <a href="games.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Games </a>
+
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Container -->
+    <div id="mobile-menu"
+        class="hidden md:hidden bg-black/95 backdrop-blur-sm border-b border-gray-800 fixed top-16 left-0 w-full shadow-lg z-40">
+        <nav class="flex flex-col p-4 space-y-4 text-gray-200">
+            <a href="index.html" class="text-sm font-medium hover:text-white transition-colors">Home</a>
+            <a href="tools.html" class="text-sm font-medium hover:text-white transition-colors">Tools</a>
+            <a href="games.html" class="text-sm font-medium hover:text-white transition-colors">Games</a>
+            <a href="devtools.html"class="text-sm font-bold text-blue-400 bg-white/10 rounded-lg px-2 py-1.5 transition-colors">Dev Tools</a>
+            
+        </nav>
+    </div>
+
+    <main class="pt-16">
+        <section id="products" class="py-16 bg-transparent">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12 text-text-dark">Our Comprehensive Dev Tools</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Card 1 -->
+                    <a href="Devtools/json-formatter.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <!-- Glow effect behind card on hover (kept for interactivity, invisible by default) -->
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">&lt;/&gt;</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                JSON Formatter</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">A simple and elegant JSON formatter
+                                and beautifier web tool. This project allows you to validate, format, and minify your
+                                JSON data instantly in a user-friendly interface.</p>
+                        </div>
+                    </a>
+                    <a href="Devtools/Screen-Recorder.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <!-- Glow effect behind card on hover (kept for interactivity, invisible by default) -->
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">&lt;/&gt;</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                Screen Recorder</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">Record your Desktop screen Easily</p>
+                        </div>
+                    </a>
+
+                    <!-- Card 3: .gitignore Generator -->
+                    <a href="Devtools/gitignore.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">[ ]</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                .gitignore Generator</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">Generate production-ready .gitignore
+                                files instantly for various technologies.</p>
+                        </div>
+                    </a>
+
+                    <!-- Card 4: .prettierignore Generator -->
+                    <a href="Devtools/prettierignore-Generator.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">{}</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                .prettierignore Generator</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">Create custom .prettierignore files to
+                                exclude specific paths from code formatting.</p>
+                        </div>
+                    </a>
+
+                    <!-- Card 5: PR Generator -->
+                    <a href="Devtools/Pull-Request-Generator.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">PR</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                Pull Request Generator</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">Create professional and structured
+                                Pull Request descriptions for your projects.</p>
+                        </div>
+                    </a>
+
+                    <!-- Card 6: Wallpaper Downloader -->
+                    <a href="Tools/Wallpaper Downloader.html">
+                        <div
+                            class="bg-transparent p-6 rounded-xl shadow-lg border border-border-light hover:border-cta-blue transition duration-300 transform hover:scale-[1.02] hover:shadow-xl cursor-pointer h-full relative group">
+                            <div
+                                class="absolute inset-0 bg-cta-blue/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+
+                            <div
+                                class="flex items-center justify-center w-12 h-12 rounded-full bg-cta-blue/20 text-cta-blue mb-4 relative z-10">
+                                <span class="font-mono font-bold text-lg tracking-tighter">WP</span>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2 text-text-dark relative z-10" style="color: yellow;">
+                                Wallpaper Downloader</h3>
+                            <p class="text-text-muted-dark text-sm relative z-10">Browse and download high-quality 4K
+                                wallpapers for your desktop and mobile devices.</p>
+                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-primary-bg/90 backdrop-blur-md pt-12 pb-8 border-t border-logo-gray relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="contact.html" class="hover:text-cta-blue transition-colors">Contact Us</a></li>
+                        <li><a href="privacy-policy.html" class="hover:text-cta-blue transition-colors">Privacy
+                                Policy</a></li>
+                        <li><a href="terms-of-service.html" class="hover:text-cta-blue transition-colors">Terms of
+                                Service</a></li>
+                        <li><a href="index.html" class="hover:text-cta-blue transition-colors">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
+                &copy; Insideout | All rights reserved.
+                <br>
+                A platform of innovation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Particle Network Logic -->
+    <script>
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray;
+        let animationId;
+
+        // Resize Canvas to fill screen
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            init(); // Re-init particles on resize
+        });
+        resizeCanvas();
+
+        // Mouse interaction
+        let mouse = {
+            x: null,
+            y: null,
+            radius: 100 // Radius for connection interaction
+        }
+
+        window.addEventListener('mousemove', function (event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Handle mouse out
+        window.addEventListener('mouseout', function () {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#ffffff'; // White particles
+                ctx.fill();
+            }
+
+            update() {
+                // Bounce off edges
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+
+                // Move
+                this.x += this.directionX;
+                this.y += this.directionY;
+
+                // Mouse interactivity (optional: particles flee from mouse slightly)
+                // Uncomment below to enable repulsion
+                /*
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < mouse.radius + this.size){
+                    if(mouse.x < this.x && this.x < canvas.width - this.size * 10){
+                        this.x += 1;
+                    }
+                    if(mouse.x > this.x && this.x > this.size * 10){
+                        this.x -= 1;
+                    }
+                    if(mouse.y < this.y && this.y < canvas.height - this.size * 10){
+                        this.y += 1;
+                    }
+                    if(mouse.y > this.y && this.y > this.size * 10){
+                        this.y -= 1;
+                    }
+                }
+                */
+
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            // Number of particles based on screen size
+            let numberOfParticles = (canvas.height * canvas.width) / 15000;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 0.5;
+                let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
+                // Random speed
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                let color = '#ffffff';
+
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Draw lines between particles that are close
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+                        ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+
+                    // Connection distance threshold
+                    if (distance < (canvas.width / 9) * (canvas.height / 9)) {
+                        opacityValue = 1 - (distance / 20000);
+                        // Make lines subtle
+                        ctx.strokeStyle = 'rgba(255,255,255,' + (opacityValue * 0.2) + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+
+                // Connect to mouse
+                if (mouse.x != undefined) {
+                    let distance = ((particlesArray[a].x - mouse.x) * (particlesArray[a].x - mouse.x)) +
+                        ((particlesArray[a].y - mouse.y) * (particlesArray[a].y - mouse.y));
+                    if (distance < 20000) {
+                        ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)'; // cta-blue tint for mouse connections
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        init();
+        animate();
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.onclick = () => {
+                mobileMenu.classList.toggle('hidden');
+            };
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insideout.bond</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+
+    <meta name="application-name" content="Insideout">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+    <style>
+        .typewriter-text {
+            color: #057aff;
+            font-weight: bold;
+        }
+
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #333;
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1605V9LS1K');
+</script>
+
+<body class="min-h-screen antialiased">
+
+    <!-- Header / Navigation Bar (Simplified and Logo Color Changed) -->
+    <header class="fixed top-0 w-full z-50 bg-primary-bg/95 backdrop-blur-sm shadow-md border-b border-border-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo: "Insideout" in #9EA3A3 -->
+                <div class="flex-shrink-0" style="color: #9EA3A3">
+                    <a href="index.html" class="text-2xl font-bold text-logo-gray">Insideout</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-[#9EA3A3]">
+                        <i data-lucide="menu"></i>
+                    </button>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Home</a>
+                    <a href="tools.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Tools</a>
+                    <a href="devtools.html"
+                        class="text-text-dark hover:text-cta-blue transition duration-150 font-medium">Dev
+                        Tools</a>
+                    <a href="games.html"
+                        class="text-blue-600 font-bold transition duration-150 border-b-2 border-blue-600">Games </a>
+
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Container -->
+    <div id="mobile-menu"
+        class="hidden md:hidden bg-white/95 backdrop-blur-sm border-b border-gray-100 fixed top-16 left-0 w-full shadow-lg z-40">
+        <nav class="flex flex-col p-4 space-y-4 text-[#111827]">
+            <a href="index.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Home</a>
+            <a href="tools.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Tools</a>
+            <a href="games.html"
+                class="text-sm font-bold text-blue-600 bg-blue-50 rounded-lg px-2 py-1.5 transition-colors">Games</a>
+            <a href="devtools.html" class="text-sm font-medium hover:text-logo-gray transition-colors">Dev Tools</a>
+           
+        </nav>
+    </div>
+
+
+
+
+
+    <main class="pt-16">
+        <!-- Product Features Section (Icons and Border Colors Updated) -->
+        <section id="products" class="py-16 bg-secondary-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12 text-text-dark">Our Comprehensive Games</h2>
+
+                <!-- Grid Container -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-8 p-6 ">
+
+                    <!-- CARD 1: TIC TAC TOE -->
+                    <a href="Games/Tic-Tac-Toe.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/tic tac toe.png" alt="Tic Tac Toe"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-purple-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold text-xl">XO</span>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Tic Tac Toe</h3>
+                                    <p class="text-xs text-gray-300">Strategy Game</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 2: FLAPPY BIRD -->
+                    <a href="Games/flappy-bird.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/flappy bird.png" alt="Flappy Bird"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-yellow-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="send" class="w-6 h-6 text-yellow-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Flappy Bird</h3>
+                                    <p class="text-xs text-gray-300">Arcade Classic</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 3: DINO GAME -->
+                    <a href="Games/Dino-game.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/dino.png" alt="Dino Game"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-green-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="zap" class="w-6 h-6 text-green-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Dino Game</h3>
+                                    <p class="text-xs text-gray-300">Endless Runner</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 4: WORD CHAIN -->
+                    <a href="Games/word-chain.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/wordchain.png" alt="Word Chain"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-blue-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="languages" class="w-6 h-6 text-blue-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Word Chain</h3>
+                                    <p class="text-xs text-gray-300">Puzzle & Vocabulary</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 5: NEON DEFENDER -->
+                    <a href="Games/Neon-defender.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/neon.png" alt="Neon Defender"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-red-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="shield" class="w-6 h-6 text-red-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Neon Defender</h3>
+                                    <p class="text-xs text-gray-300">Action Survival</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- CARD 6: CANDY CRUSH -->
+                    <a href="Games/candy-crush.html"
+                        class="game-card relative group w-full aspect-[16/10] bg-gray-800 rounded-2xl overflow-hidden block shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <img src="Games/images/candy.png" alt="Candy Crush"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5 z-20 flex items-end justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-pink-500/20 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-lg">
+                                    <i data-lucide="layout-grid" class="w-6 h-6 text-pink-400"></i>
+                                </div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-bold leading-tight">Candy Crush</h3>
+                                    <p class="text-xs text-gray-300">Puzzle Match-3</p>
+                                </div>
+                            </div>
+                            <span
+                                class="bg-white/10 backdrop-blur-md border border-white/20 text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full text-white">
+                                Free
+                            </span>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 pt-16 pb-8 border-t-4 border-logo-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div class="space-y-4">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+
+                        Insideout
+                    </h2>
+                    <p class="text-sm max-w-xs">
+                        Empowering users with privacy-focused web utilities and innovation since 2025.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Navigation</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-logo-gray transition-colors">Home Page</a></li>
+                        <li><a href="tools.html" class="hover:text-logo-gray transition-colors">All Tools</a></li>
+                        <li><a href="contact.html" class="hover:text-logo-gray transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Legal</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="privacy-policy.html" class="hover:text-logo-gray transition-colors">Privacy
+                                Policy</a></li>
+                        <li><a href="terms-of-service.html" class="hover:text-logo-gray transition-colors">Terms of
+                                Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-800 text-center">
+                <p class="text-xs">&copy; 2025 Insideout.bond | A platform of innovation.</p>
+                <div class="mt-4 flex justify-center gap-6">
+
+                    <a href="mailto:insideoutwebservices@gmail.com" class="hover:text-white transition-colors">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Initialize Lucide Icons and Mobile Menu Toggle
+        lucide.createIcons();
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.onclick = () => {
+                mobileMenu.classList.toggle('hidden');
+            };
+        }
+    </script>
+
+    <!-- Initialize Lucide Icons -->
+
+</body>
+
+</html>
