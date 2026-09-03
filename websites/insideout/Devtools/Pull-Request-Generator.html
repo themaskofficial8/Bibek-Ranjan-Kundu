@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pull Request Generator</title>
+    <meta name="description"
+        content="Create professional Pull Request descriptions instantly with our PR Generator tool.">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout">
+
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- Tailwind CSS with Typography Plugin -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .fade-exit {
+            opacity: 1;
+        }
+
+        .fade-exit-active {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        /* Prose Overrides for Dark Mode Preview */
+        .prose-custom {
+            color: #e2e8f0;
+            max-width: none;
+        }
+
+        .prose-custom h1,
+        .prose-custom h2,
+        .prose-custom h3,
+        .prose-custom strong {
+            color: #f8fafc;
+        }
+
+        .prose-custom a {
+            color: #3b82f6;
+        }
+
+        .prose-custom ul>li::marker {
+            color: #94a3b8;
+        }
+
+        .prose-custom code {
+            color: #e2e8f0;
+            background: #334155;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 400;
+        }
+
+        .prose-custom pre {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 text-slate-200 font-sans min-h-screen selection:bg-blue-500/30 selection:text-blue-200">
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-8 pb-4 border-b border-slate-700">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2 rounded-lg shadow-lg shadow-blue-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-100 tracking-tight">PR Generator</h1>
+            </div>
+            <button onclick="app.clearForm()"
+                class="text-sm font-medium text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear Form
+            </button>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:h-[calc(100vh-180px)]">
+
+            <!-- LEFT COLUMN: INPUTS -->
+            <section class="flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
+
+                <!-- Card 1: Meta Info -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm">
+                    <h2 class="text-sm font-semibold text-slate-400 mb-4 uppercase tracking-wider">Meta Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs text-slate-400 ml-1">Ticket ID / Project</label>
+                            <input type="text" id="input-ticket"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-600"
+                                placeholder="e.g. PROJ-123">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs text-slate-400 ml-1">PR Type</label>
+                            <select id="input-type"
+                                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none cursor-pointer">
+                                <option value="✨ Feature">✨ Feature</option>
+                                <option value="🐛 Bug Fix">🐛 Bug Fix</option>
+                                <option value="♻️ Refactor">♻️ Refactor</option>
+                                <option value="🔥 Hotfix">🔥 Hotfix</option>
+                                <option value="📚 Docs">📚 Docs</option>
+                                <option value="🏗️ Chore">🏗️ Chore</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Details -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm flex flex-col gap-4">
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs text-slate-400 ml-1">PR Title</label>
+                            <span class="text-[10px] text-slate-500">Auto-generated</span>
+                        </div>
+                        <input type="text" id="input-title"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                            placeholder="✨ [PROJ-123] ...">
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-400 ml-1">Description</label>
+                        <textarea id="input-desc" rows="6"
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-600 resize-none font-mono"
+                            placeholder="What does this PR do?"></textarea>
+                    </div>
+                </div>
+
+                <!-- Card 3: Checklist & Breaking -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm flex flex-col gap-6">
+
+                    <!-- Checklist -->
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Checklist</h2>
+                        </div>
+
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="input-new-task"
+                                class="flex-grow bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500 transition-colors"
+                                placeholder="Add a new task..." onkeydown="if(event.key === 'Enter') app.addTask()">
+                            <button onclick="app.addTask()"
+                                class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div id="checklist-container" class="space-y-2">
+                            <!-- Tasks injected here -->
+                        </div>
+                    </div>
+
+                    <div class="h-px bg-slate-700/50"></div>
+
+                    <!-- Breaking Changes Toggle -->
+                    <div class="flex items-center justify-between cursor-pointer" onclick="app.toggleBreaking()">
+                        <div>
+                            <span class="text-sm font-medium text-slate-200">Breaking Changes?</span>
+                            <p class="text-xs text-slate-500">Enable this if the PR introduces breaking changes.</p>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" id="input-breaking" class="sr-only">
+                            <div
+                                class="block bg-slate-900 w-10 h-6 rounded-full border border-slate-600 peer-checked:bg-blue-600">
+                            </div>
+                            <div id="breaking-dot"
+                                class="dot absolute left-1 top-1 bg-slate-400 w-4 h-4 rounded-full transition-transform duration-200">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: PREVIEW -->
+            <section
+                class="flex flex-col h-[500px] lg:h-full bg-slate-800 rounded-xl border border-slate-700 shadow-lg overflow-hidden relative">
+
+                <!-- Tabs -->
+                <div class="flex border-b border-slate-700 bg-slate-900/50">
+                    <button id="tab-preview" onclick="app.setTab('preview')"
+                        class="flex-1 py-3 text-sm font-medium text-blue-400 border-b-2 border-blue-500 transition-colors bg-slate-800/50">
+                        Visual Preview
+                    </button>
+                    <button id="tab-raw" onclick="app.setTab('raw')"
+                        class="flex-1 py-3 text-sm font-medium text-slate-500 hover:text-slate-300 transition-colors">
+                        Raw Markdown
+                    </button>
+                </div>
+
+                <!-- Content Area -->
+                <div class="relative flex-grow overflow-hidden">
+
+                    <!-- Visual Preview -->
+                    <div id="view-preview"
+                        class="absolute inset-0 p-6 overflow-y-auto custom-scrollbar prose prose-custom">
+                        <!-- Marked Rendered HTML -->
+                    </div>
+
+                    <!-- Raw Markdown -->
+                    <div id="view-raw" class="absolute inset-0 hidden">
+                        <textarea id="output-raw"
+                            class="w-full h-full bg-slate-950 p-6 font-mono text-sm text-slate-400 resize-none focus:outline-none"
+                            readonly></textarea>
+                    </div>
+
+                </div>
+
+                <!-- Copy Bar -->
+                <div class="p-4 border-t border-slate-700 bg-slate-800 font-sans z-10">
+                    <button id="btn-copy" onclick="app.copyToClipboard()"
+                        class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex justify-center items-center gap-2 group">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-pulse"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                            <path
+                                d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                        </svg>
+                        <span>Copy Markdown</span>
+                    </button>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        const app = {
+            state: {
+                ticketId: '',
+                type: '✨ Feature',
+                title: '',
+                description: '',
+                tasks: ['Tests Passed', 'Linter Clean'],
+                breaking: false,
+                viewMode: 'preview' // 'preview' | 'raw'
+            },
+
+            // DOM Cache
+            els: {
+                ticket: document.getElementById('input-ticket'),
+                type: document.getElementById('input-type'),
+                title: document.getElementById('input-title'),
+                desc: document.getElementById('input-desc'),
+                newTask: document.getElementById('input-new-task'),
+                checklist: document.getElementById('checklist-container'),
+                breakingDot: document.getElementById('breaking-dot'),
+                viewPreview: document.getElementById('view-preview'),
+                viewRaw: document.getElementById('view-raw'),
+                outputRaw: document.getElementById('output-raw'),
+                tabPreview: document.getElementById('tab-preview'),
+                tabRaw: document.getElementById('tab-raw'),
+                btnCopy: document.getElementById('btn-copy')
+            },
+
+            init() {
+                this.loadState();
+                this.bindEvents();
+                this.render();
+            },
+
+            loadState() {
+                const saved = localStorage.getItem('pr_generator_data');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        // Merge with default state to handle potential schema updates in future
+                        this.state = { ...this.state, ...parsed };
+                    } catch (e) {
+                        console.error('Failed to load state', e);
+                    }
+                }
+            },
+
+            saveState() {
+                localStorage.setItem('pr_generator_data', JSON.stringify(this.state));
+                this.render();
+            },
+
+            bindEvents() {
+                // Input bindings
+                this.els.ticket.addEventListener('input', (e) => {
+                    this.state.ticketId = e.target.value;
+                    this.generateTitle();
+                    this.saveState();
+                });
+
+                this.els.type.addEventListener('change', (e) => {
+                    this.state.type = e.target.value;
+                    this.generateTitle();
+                    this.saveState();
+                });
+
+                this.els.title.addEventListener('input', (e) => {
+                    this.state.title = e.target.value;
+                    this.saveState();
+                });
+
+                this.els.desc.addEventListener('input', (e) => {
+                    this.state.description = e.target.value;
+                    this.saveState();
+                });
+            },
+
+            generateTitle() {
+                // Simple heuristic: If title is empty or looks like an auto-generated one, update it.
+                // Otherwise leave it alone to respect user edits.
+                // We'll just force update for now as requested by user logic "Auto-generated... but editable"
+                // To allow editing, we could track a 'dirty' flag, but for now let's just update if the pattern matches partials or is empty.
+                const typeEmoji = this.state.type.split(' ')[0]; // Extract emoji
+                const cleanTicket = this.state.ticketId.trim();
+                const ticketPart = cleanTicket ? `[${cleanTicket}]` : '';
+
+                // Construct logic
+                if (this.state.title === '' || this.state.title.includes(typeEmoji)) {
+                    this.state.title = `${this.state.type} ${ticketPart}`;
+                }
+            },
+
+            addTask() {
+                const val = this.els.newTask.value.trim();
+                if (val) {
+                    this.state.tasks.push(val);
+                    this.els.newTask.value = '';
+                    this.saveState();
+                }
+            },
+
+            removeTask(index) {
+                this.state.tasks.splice(index, 1);
+                this.saveState();
+            },
+
+            toggleBreaking() {
+                this.state.breaking = !this.state.breaking;
+                this.saveState();
+            },
+
+            setTab(tab) {
+                this.state.viewMode = tab;
+                this.saveState();
+            },
+
+            clearForm() {
+                if (confirm('Are you sure you want to clear all fields?')) {
+                    this.state = {
+                        ticketId: '',
+                        type: '✨ Feature',
+                        title: '',
+                        description: '',
+                        tasks: ['Tests Passed', 'Linter Clean'],
+                        breaking: false,
+                        viewMode: 'preview'
+                    };
+                    this.saveState();
+                    // Reset input values manually since reactive binding is one-way specific
+                    this.els.ticket.value = '';
+                    this.els.title.value = '';
+                    this.els.desc.value = '';
+                    this.els.type.value = '✨ Feature';
+                    this.render(); // Force re-render
+                }
+            },
+
+            generateMarkdown() {
+                const s = this.state;
+
+                let md = `# ${s.title}\n\n`;
+
+                md += `## 🎫 Ticket\n`;
+                md += s.ticketId ? `Ref: **${s.ticketId}**` : `_No ticket ID provided_`;
+                md += `\n\n`;
+
+                md += `## 📝 Description\n`;
+                md += s.description ? s.description : `_No description provided._`;
+                md += `\n\n`;
+
+                if (s.breaking) {
+                    md += `## ⚠️ Breaking Changes\n`;
+                    md += `> **Warning**: This PR introduces breaking changes.\n\n`;
+                }
+
+                md += `## ✅ Checklist\n`;
+                if (s.tasks.length > 0) {
+                    s.tasks.forEach(task => {
+                        md += `- [ ] ${task}\n`;
+                    });
+                } else {
+                    md += `_No tasks defined._`;
+                }
+
+                return md;
+            },
+
+            render() {
+                // Sync Inputs (Optimized to not interrupt typing focus where possible)
+                if (document.activeElement !== this.els.ticket) this.els.ticket.value = this.state.ticketId;
+                if (document.activeElement !== this.els.title) this.els.title.value = this.state.title;
+                if (document.activeElement !== this.els.desc) this.els.desc.value = this.state.description;
+                this.els.type.value = this.state.type;
+
+                // Sync Breaking Dot
+                if (this.state.breaking) {
+                    this.els.breakingDot.classList.add('translate-x-4');
+                    this.els.breakingDot.classList.replace('bg-slate-400', 'bg-white');
+                } else {
+                    this.els.breakingDot.classList.remove('translate-x-4');
+                    this.els.breakingDot.classList.replace('bg-white', 'bg-slate-400');
+                }
+
+                // Render Checklist
+                this.els.checklist.innerHTML = this.state.tasks.map((task, i) => `
+                    <div class="flex items-center justify-between bg-slate-900/50 p-2 rounded border border-slate-700/50 group">
+                        <span class="text-sm text-slate-300 ml-2 border-l-2 border-blue-500/0 pl-0 group-hover:border-blue-500 group-hover:pl-2 transition-all">${task}</span>
+                        <button onclick="app.removeTask(${i})" class="text-slate-600 hover:text-rose-500 transition-colors p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                `).join('');
+
+                // Render Output
+                const markdown = this.generateMarkdown();
+                this.els.outputRaw.value = markdown;
+                this.els.viewPreview.innerHTML = marked.parse(markdown);
+
+                // Tabs Logic
+                if (this.state.viewMode === 'preview') {
+                    this.els.viewPreview.classList.remove('hidden');
+                    this.els.viewRaw.classList.add('hidden');
+
+                    this.els.tabPreview.classList.remove('text-slate-500');
+                    this.els.tabPreview.classList.add('text-blue-400', 'border-b-2', 'border-blue-500', 'bg-slate-800/50');
+
+                    this.els.tabRaw.classList.remove('text-blue-400', 'border-b-2', 'border-blue-500', 'bg-slate-800/50');
+                    this.els.tabRaw.classList.add('text-slate-500');
+                } else {
+                    this.els.viewPreview.classList.add('hidden');
+                    this.els.viewRaw.classList.remove('hidden');
+
+                    this.els.tabRaw.classList.remove('text-slate-500');
+                    this.els.tabRaw.classList.add('text-blue-400', 'border-b-2', 'border-blue-500', 'bg-slate-800/50');
+
+                    this.els.tabPreview.classList.remove('text-blue-400', 'border-b-2', 'border-blue-500', 'bg-slate-800/50');
+                    this.els.tabPreview.classList.add('text-slate-500');
+                }
+            },
+
+            async copyToClipboard() {
+                const text = this.els.outputRaw.value;
+                if (!text) return;
+
+                const originalHTML = this.els.btnCopy.innerHTML;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+                    this.showSuccess(originalHTML);
+                } catch (err) {
+                    // Fallback
+                    try {
+                        this.els.outputRaw.select();
+                        document.execCommand('copy');
+                        window.getSelection().removeAllRanges();
+                        this.showSuccess(originalHTML);
+                    } catch (e) {
+                        alert('Could not copy automatically.');
+                    }
+                }
+            },
+
+            showSuccess(originalHTML) {
+                this.els.btnCopy.classList.replace('bg-blue-600', 'bg-emerald-600');
+                this.els.btnCopy.classList.replace('hover:bg-blue-500', 'hover:bg-emerald-500');
+                this.els.btnCopy.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Copied! ✅</span>
+                `;
+
+                setTimeout(() => {
+                    this.els.btnCopy.classList.replace('bg-emerald-600', 'bg-blue-600');
+                    this.els.btnCopy.classList.replace('hover:bg-emerald-500', 'hover:bg-blue-500');
+                    this.els.btnCopy.innerHTML = originalHTML;
+                }, 2000);
+            }
+        };
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+
+</html>

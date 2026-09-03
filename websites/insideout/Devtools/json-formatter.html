@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+    <meta name="application-name" content="Inbondz">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+     <!-- auto ads  -->
+     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+     crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+
+    <style>
+        :root {
+            --primary-color: #5a7dff;
+            --primary-hover: #4a6ceb;
+            --secondary-color: #8c9eff;
+            --bg-color: #1c1c28;
+            --card-bg: #2a2a3a;
+            --text-main: #e0e0e0;
+            --text-muted: #b0b0b0;
+            --border-color: #404055;
+            --error-bg: #fed7d7;
+            --error-text: #e53e3e;
+            --success-bg: #c6f6d5;
+            --success-text: #38a169;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            --bg-color: #1c1c28;
+            --card-bg: #2a2a3a;
+            --text-main: #c0c0c0;
+            --text-muted: #b0b0b0;
+            --border-color: #404055;
+            --error-bg: #fed7d7;
+            --error-text: #e53e3e;
+            --success-bg: #c6f6d5;
+            --success-text: #38a169;
+        }
+
+        body.dark-theme .panel-header {
+            background: #2a2a3a;
+        }
+
+        body.dark-theme textarea:focus {
+            background-color: #3b3b4d;
+        }
+
+        body.dark-theme textarea.stale {
+            background-color: #1c1c28;
+        }
+
+        body.dark-theme .panel-footer {
+            background: #2a2a3a;
+        }
+
+        /* --- Layout & Container --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* --- Alert / Error Box --- */
+        .alert-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: none; /* Hidden by default */
+            align-items: flex-start; /* Aligns icon/text top for long errors */
+            gap: 0.75rem;
+            animation: slideDown 0.3s ease-out;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .alert-error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #bbf7d0;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Editor Workspace --- */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+            min-height: 500px;
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1rem;
+            background: #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .editor-container {
+            flex: 1;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            /* Fixed: Use 1rem (16px) to prevent iOS zoom on focus */
+            font-size: 1rem; 
+            color: var(--text-main);
+            background-color: var(--card-bg);
+            outline: none;
+            line-height: 1.5;
+            tab-size: 4;
+        }
+
+        textarea:focus {
+            background-color: #fafbfc;
+        }
+
+        textarea.stale {
+            color: var(--text-muted);
+            background-color: #f8fafc;
+        }
+
+        textarea::placeholder {
+            color: #cbd5e1;
+        }
+
+        /* --- Footer Info --- */
+        .panel-footer {
+            padding: 0.5rem 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            font-family: var(--font-main);
+            user-select: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Button Variants */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover { background-color: #f1f5f9; border-color: #cbd5e1; }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--text-muted);
+        }
+        .btn-ghost:hover { color: #dc2626; background-color: #fef2f2; }
+
+        .global-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            
+            .panel {
+                min-height: 400px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .panel-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1605V9LS1K');
+</script>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>JSON Formatter & Beautifier</h1>
+            <p class="description">Validate, Format, and Minify your JSON data instantly.</p>
+        </header>
+
+        <!-- Error/Status Message Area -->
+        <div id="status-msg" role="alert" aria-live="polite" class="alert-box"></div>
+
+        <!-- Global Sample Button -->
+        <div class="global-actions">
+            <button id="btn-sample" class="btn btn-secondary" onclick="loadSampleData()">
+                <span>📄 Load Sample JSON</span>
+            </button>
+        </div>
+
+        <main class="workspace">
+            <!-- Left Panel: Input -->
+            <section class="panel">
+                <div class="panel-header">
+                    <span id="label-input" class="panel-title">Input / Raw JSON</span>
+                    <div class="panel-actions">
+                        <button id="btn-format" class="btn btn-primary" title="Pretty print JSON">Format</button>
+                        <button id="btn-minify" class="btn btn-secondary" title="Compact JSON">Minify</button>
+                        <button id="btn-clear-in" class="btn btn-ghost" title="Clear input">Clear</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea 
+                        id="json-input" 
+                        aria-labelledby="label-input"
+                        placeholder='Paste your raw JSON string here...' 
+                        spellcheck="false"></textarea>
+                </div>
+                <div class="panel-footer">
+                    <span id="char-count-in">0 Chars</span>
+                </div>
+            </section>
+
+            <!-- Right Panel: Output -->
+            <section class="panel">
+                <div class="panel-header">
+                    <span id="label-output" class="panel-title">Output / Result</span>
+                    <div class="panel-actions">
+                        <button id="btn-copy" class="btn btn-secondary" title="Copy to clipboard">Copy Output</button>
+                        <button id="btn-clear-out" class="btn btn-ghost" title="Clear output">Clear</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea 
+                        id="json-output" 
+                        aria-labelledby="label-output"
+                        placeholder="Formatted result will appear here..." 
+                        readonly 
+                        spellcheck="false"></textarea>
+                </div>
+                <div class="panel-footer">
+                    <span id="output-status">Read Only</span>
+                    <span id="char-count-out">0 Chars</span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // DOM Elements
+        const inputArea = document.getElementById('json-input');
+        const outputArea = document.getElementById('json-output');
+        const statusMsg = document.getElementById('status-msg');
+        const charCountIn = document.getElementById('char-count-in');
+        const charCountOut = document.getElementById('char-count-out');
+        const outputStatus = document.getElementById('output-status');
+
+        // Buttons
+        const btnFormat = document.getElementById('btn-format');
+        const btnMinify = document.getElementById('btn-minify');
+        const btnClearIn = document.getElementById('btn-clear-in');
+        const btnClearOut = document.getElementById('btn-clear-out');
+        const btnCopy = document.getElementById('btn-copy');
+
+        // State Tracking
+        let isErrorState = false;
+        let toastTimeout = null;
+
+        // --- Core Functions ---
+
+        /**
+         * Parses and Formats JSON
+         * @param {boolean} minify - If true, result is single line. If false, pretty print.
+         */
+        function processJSON(minify = false) {
+            const rawValue = inputArea.value.trim();
+
+            if (!rawValue) {
+                showToast("Please enter some JSON text first.", "error");
+                return;
+            }
+
+            try {
+                // 1. Parse the input string (Strict JSON parsing)
+                const parsed = JSON.parse(rawValue);
+
+                // 2. Stringify based on mode
+                const formatted = minify 
+                    ? JSON.stringify(parsed) 
+                    : JSON.stringify(parsed, null, 4);
+
+                // 3. Update Output
+                outputArea.value = formatted;
+                outputArea.classList.remove('stale');
+                
+                // 4. Update Stats and Success UI
+                updateStats();
+                hideError();
+                showToast(minify ? "JSON Minified successfully!" : "JSON Formatted successfully!", "success");
+
+            } catch (err) {
+                console.error(err);
+                
+                // Try to extract line/column info
+                const location = getErrorLocation(err.message, rawValue);
+                
+                let errorMsg = `Invalid JSON: ${err.message}`;
+                
+                // Add hint for common user error: Using single quotes or unquoted keys
+                if (err.message.includes("token") || err.message.includes("Unexpected")) {
+                    if (rawValue.includes("'") || /[{,]\s*[a-zA-Z0-9_]+\s*:/.test(rawValue)) {
+                        errorMsg += `\n\n💡 Tip: Standard JSON requires double quotes (") around keys and strings. Single quotes or unquoted keys are not valid JSON.`;
+                    }
+                }
+
+                if (location) {
+                    errorMsg = `Invalid JSON Error at Line ${location.line}, Column ${location.column}`;
+                    // Highlight logic
+                    highlightError(location.pos, location.line);
+                }
+
+                showError(errorMsg);
+            }
+        }
+
+        /**
+         * Tries to find line/column from error message (works for V8/Chrome & SpiderMonkey/Firefox)
+         */
+        function getErrorLocation(msg, content) {
+            // Chrome: "Unexpected token } in JSON at position 42"
+            const posMatch = msg.match(/at position (\d+)/);
+            if (posMatch) {
+                const pos = parseInt(posMatch[1], 10);
+                const lines = content.substring(0, pos).split('\n');
+                return {
+                    line: lines.length,
+                    column: lines[lines.length - 1].length + 1,
+                    pos: pos
+                };
+            }
+
+            // Firefox: "JSON.parse: unexpected character at line 1 column 2..."
+            const lineColMatch = msg.match(/line (\d+) column (\d+)/);
+            if (lineColMatch) {
+                // Firefox gives Line/Col but not absolute index easily without recalculating
+                // We'll return line/col for the message, but position calculation is expensive/complex 
+                // for just a highlight without mapping lines. We can try to approximate.
+                return {
+                    line: parseInt(lineColMatch[1], 10),
+                    column: parseInt(lineColMatch[2], 10),
+                    pos: -1 
+                };
+            }
+            
+            return null;
+        }
+
+        /**
+         * Focuses input, selects error char, and attempts to scroll to it
+         */
+        function highlightError(pos, lineNum) {
+            if (pos >= 0 && inputArea.setSelectionRange) {
+                inputArea.focus();
+                inputArea.setSelectionRange(pos, pos + 1);
+                
+                // Scroll into view logic
+                // Calculate line height approximate (1.5 * 16px = 24px)
+                const lineHeight = 24; 
+                // Scroll to the line (centering it roughly)
+                const scrollPos = (lineNum - 1) * lineHeight - (inputArea.clientHeight / 2);
+                inputArea.scrollTop = scrollPos > 0 ? scrollPos : 0;
+            }
+        }
+
+        /**
+         * Loads sample data into the input area
+         */
+        function loadSampleData() {
+            const sample = {
+                "project": "JSON Formatter",
+                "version": 1.0,
+                "author": {
+                    "role": "Senior Developer",
+                    "skills": ["HTML", "CSS", "JavaScript"]
+                },
+                "features": [
+                    { "name": "Beautify", "active": true },
+                    { "name": "Error Highlighting", "active": true }
+                ],
+                "active": true
+            };
+            inputArea.value = JSON.stringify(sample); 
+            updateStats();
+            hideError();
+            processJSON(false); // Auto format
+        }
+
+        /**
+         * Copies output content to clipboard
+         */
+        function copyOutput() {
+            const content = outputArea.value;
+            if (!content) {
+                showToast("Nothing to copy!", "error");
+                return;
+            }
+
+            outputArea.select();
+            
+            try {
+                // Use execCommand for iframe compatibility (standard Clipboard API often blocked in iframes)
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast("Copied result to clipboard!", "success");
+                } else {
+                    showToast("Failed to copy. Please press Ctrl+C.", "error");
+                }
+            } catch (err) {
+                showToast("Unable to copy automatically.", "error");
+            }
+            
+            // Clean up selection
+            window.getSelection().removeAllRanges();
+        }
+
+        // --- UI & Helper Functions ---
+
+        function showError(msg) {
+            isErrorState = true;
+            statusMsg.textContent = msg;
+            statusMsg.className = 'alert-box alert-error';
+            statusMsg.style.display = 'flex';
+            
+            // Clear any pending success toast timer so this error stays visible
+            if (toastTimeout) clearTimeout(toastTimeout);
+        }
+
+        function showToast(msg, type = "success") {
+            // Don't overwrite a persistent error with a success toast unless explicitly fixed
+            if (isErrorState && type === 'success') return; 
+
+            // Clear previous timeout to prevent race conditions
+            if (toastTimeout) clearTimeout(toastTimeout);
+
+            statusMsg.textContent = msg;
+            statusMsg.className = type === 'success' ? 'alert-box alert-success' : 'alert-box alert-error';
+            statusMsg.style.display = 'flex';
+            
+            if (type === 'success') {
+                toastTimeout = setTimeout(() => {
+                    // Only hide if it's still the success message 
+                    if (statusMsg.className.includes('alert-success')) {
+                        statusMsg.style.display = 'none';
+                    }
+                }, 3000);
+            }
+        }
+
+        function hideError() {
+            statusMsg.style.display = 'none';
+            isErrorState = false;
+        }
+
+        function updateStats() {
+            const lenIn = inputArea.value.length;
+            const lenOut = outputArea.value.length;
+            
+            charCountIn.textContent = `${lenIn.toLocaleString()} Chars`;
+            charCountOut.textContent = `${lenOut.toLocaleString()} Chars`;
+            
+            // Toggle button states based on input
+            const isEmpty = lenIn === 0;
+            btnFormat.disabled = isEmpty;
+            btnMinify.disabled = isEmpty;
+        }
+
+        // --- Event Listeners ---
+
+        // Input Changes
+        inputArea.addEventListener('input', () => {
+            updateStats();
+            // Visual cue that output might be stale
+            if (outputArea.value.length > 0) {
+                outputArea.classList.add('stale');
+            }
+            if (isErrorState) hideError();
+        });
+
+        // Tab Key Support for Indentation
+        inputArea.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                // Use execCommand to insert text; this preserves Undo/Redo history
+                // Direct value manipulation (this.value += ' ') breaks undo
+                document.execCommand('insertText', false, '    ');
+            }
+        });
+
+        // Action Buttons
+        btnFormat.addEventListener('click', () => processJSON(false));
+        btnMinify.addEventListener('click', () => processJSON(true));
+        btnCopy.addEventListener('click', copyOutput);
+        
+        // COMMENTED OUT to prevent runtime error (Button not found in HTML)
+        // btnThemeToggle.addEventListener('click', toggleTheme);
+
+        // Clear Buttons
+        btnClearIn.addEventListener('click', () => {
+            inputArea.value = '';
+            inputArea.focus();
+            updateStats();
+            hideError();
+        });
+
+        btnClearOut.addEventListener('click', () => {
+            outputArea.value = '';
+            updateStats();
+            hideError();
+        });
+
+        // Initialize
+        document.body.classList.add('dark-theme'); // Force dark theme
+        updateStats();
+
+    </script>
+</body>
+</html>

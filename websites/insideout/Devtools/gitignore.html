@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.gitignore Generator</title>
+    <meta name="description" content="Generate production-ready .gitignore files instantly.">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout">
+
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            750: '#2d3748', // Custom shade between 700 and 800 if needed
+                            850: '#1a202c', // Custom shade
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-900 text-slate-200 font-sans min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="text-indigo-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <h1
+                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">
+                    .gitignore Generator
+                </h1>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative w-full md:max-w-md group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <input type="text" id="search-input"
+                    class="block w-full pl-10 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl leading-5 placeholder-slate-500 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all shadow-inner"
+                    placeholder="Search templates (e.g., Python, React)...">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    <span
+                        class="text-xs text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 hidden sm:block">Ctrl
+                        K</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+
+        <!-- Selection Grid -->
+        <section class="flex-1">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-slate-100 flex items-center gap-2">
+                    Available Templates
+                    <span id="count-badge"
+                        class="px-2 py-0.5 rounded-full bg-slate-800 text-xs text-indigo-400 border border-slate-700">0</span>
+                </h2>
+                <div class="text-sm text-slate-500">
+                    Select items to generate your file
+                </div>
+            </div>
+
+            <div id="grid-container"
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-20 lg:pb-0">
+                <!-- Cards injected here via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 text-center">
+                <div class="bg-slate-800/50 p-4 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-slate-300 font-medium mb-1">No templates found</h3>
+                <p class="text-slate-500 text-sm">Try searching for something else.</p>
+            </div>
+        </section>
+
+        <!-- Preview Pane (Sticky Sidebar) -->
+        <aside class="w-full lg:w-96 xl:w-[28rem] flex-shrink-0">
+            <div class="lg:sticky lg:top-24 flex flex-col gap-4">
+
+                <div
+                    class="glass-panel rounded-2xl p-1 shadow-2xl flex flex-col h-[calc(100vh-140px)] lg:h-[calc(100vh-8rem)]">
+                    <!-- Actions Toolbar -->
+                    <div class="p-3 border-b border-slate-700/50 flex flex-col gap-2 bg-slate-800/50 rounded-t-xl">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-slate-200">File Preview</h3>
+                            <button id="btn-clear"
+                                class="text-xs text-rose-400 hover:text-rose-300 hover:underline px-2 py-1 rounded transition-colors hidden">
+                                Clear All
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="btn-copy"
+                                class="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 py-2 px-3 rounded-lg text-sm font-medium transition-all active:scale-95 border border-slate-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copy</span>
+                            </button>
+                            <button id="btn-download"
+                                class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-3 rounded-lg text-sm font-medium shadow-lg shadow-indigo-500/20 transition-all active:scale-95">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Editor Area -->
+                    <div class="relative flex-grow bg-slate-950 rounded-b-xl overflow-hidden group">
+                        <div class="absolute top-2 right-4 text-xs text-slate-600 select-none font-mono">.gitignore
+                        </div>
+                        <textarea id="preview-area"
+                            class="w-full h-full bg-slate-950 text-slate-300 p-4 font-mono text-xs sm:text-sm resize-none focus:outline-none"
+                            placeholder="# Select templates to generate your .gitignore file..." readonly></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 mt-8 bg-slate-900">
+        <div class="container mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>&copy; 2026 Insideout.bond | A platform of innovation.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- DATA ---
+        const GITIGNORE_DATA = [
+            // 5 Real-world examples
+            {
+                id: 'node',
+                name: 'Node.js',
+                category: 'Runtime',
+                content: '### Node.js ###\nnode_modules/\nnpm-debug.log\nyarn-error.log\n.pnp/\n.pnp.js\ncoverage/\n.env\n.DS_Store'
+            },
+            {
+                id: 'python',
+                name: 'Python',
+                category: 'Language',
+                content: '### Python ###\n__pycache__/\n*.py[cod]\n*$py.class\nvenv/\n.venv/\n*.so\n.env\ndevelop-eggs/\ndist/\ndownloads/\neggs/'
+            },
+            {
+                id: 'macos',
+                name: 'macOS',
+                category: 'OS',
+                content: '### macOS ###\n.DS_Store\n.AppleDouble\n.LSOverride\n._*\n.DocumentRevisions-V100\n.fseventsd\n.Spotlight-V100\n.TemporaryItems'
+            },
+            {
+                id: 'windows',
+                name: 'Windows',
+                category: 'OS',
+                content: '### Windows ###\nThumbs.db\nehthumbs.db\nDesktop.ini\n$RECYCLE.BIN/\n*.cab\n*.msi\n*.msm\n*.msp'
+            },
+            {
+                id: 'react',
+                name: 'React',
+                category: 'Framework',
+                content: '### React ###\nbuild/\ndist/\nnode_modules/\n.env.local\n.env.development.local\n.env.test.local\n.env.production.local'
+            },
+            // 10 Placeholders/Generic
+            { id: 'java', name: 'Java', category: 'Language', content: '### Java ###\n*.class\n*.log\n*.ctxt\n.mtj.tmp/\n*.jar\n*.war\n*.nar\n*.ear\n*.zip\nhs_err_pid*' },
+            { id: 'vscode', name: 'VS Code', category: 'IDEs', content: '### VS Code ###\n.vscode/*\n!.vscode/settings.json\n!.vscode/tasks.json\n!.vscode/launch.json\n!.vscode/extensions.json' },
+            { id: 'jetbrains', name: 'JetBrains', category: 'IDEs', content: '### JetBrains ###\n.idea/\n*.iws\n*.iml\n*.ipr' },
+            { id: 'linux', name: 'Linux', category: 'OS', content: '### Linux ###\n*~\n.fuse_hidden*\n.directory\n.Trash-*' },
+            { id: 'go', name: 'Go', category: 'Language', content: '### Go ###\n/bin/\n/pkg/\n/src/\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib\n*.test\n*.out' },
+            { id: 'rust', name: 'Rust', category: 'Language', content: '### Rust ###\n/target/\n**/*.rs.bk\nCargo.lock\n**/*.log' },
+            { id: 'dart', name: 'Dart', category: 'Language', content: '### Dart ###\n.dart_tool/\n.packages\nbuild/\npubspec.lock' },
+            { id: 'unity', name: 'Unity', category: 'Game Engine', content: '### Unity ###\n/[Ll]ibrary/\n/[Tt]emp/\n/[Oo]bj/\n/[Bb]uild/\n/[Bb]uilds/\n/[Ll]ogs/' },
+            { id: 'unreal', name: 'Unreal Engine', category: 'Game Engine', content: '### Unreal Engine ###\nBinaries/*\nBuild/*\nSaved/*\nIntermediate/*\nDerivedDataCache/*' },
+            { id: 'cplusplus', name: 'C++', category: 'Language', content: '### C++ ###\nPrerequisites\n*.d\n*.o\n*.ko\n*.obj\n*.elf\n*.ilk\n*.map\n*.exp' },
+        ];
+
+        // --- STATE MANAGEMENT ---
+        const state = {
+            selectedIds: new Set(),
+            searchQuery: ''
+        };
+
+        // --- DOM ELEMENTS ---
+        const els = {
+            grid: document.getElementById('grid-container'),
+            preview: document.getElementById('preview-area'),
+            search: document.getElementById('search-input'),
+            btnCopy: document.getElementById('btn-copy'),
+            btnDownload: document.getElementById('btn-download'),
+            btnClear: document.getElementById('btn-clear'),
+            countBadge: document.getElementById('count-badge'),
+            emptyState: document.getElementById('empty-state')
+        };
+
+        // Store original button content to prevent race conditions
+        let copyTimeout;
+        const originalCopyHtml = els.btnCopy.innerHTML;
+
+        // --- RENDER LOGIC ---
+        function render() {
+            // 1. Filter Data
+            const query = state.searchQuery.toLowerCase().trim();
+            const filteredData = GITIGNORE_DATA.filter(item =>
+                item.name.toLowerCase().includes(query) ||
+                item.id.toLowerCase().includes(query) ||
+                item.category.toLowerCase().includes(query)
+            );
+
+            // 2. Render Grid
+            els.grid.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                els.grid.classList.add('hidden');
+                els.emptyState.classList.remove('hidden');
+            } else {
+                els.grid.classList.remove('hidden');
+                els.emptyState.classList.add('hidden');
+                els.countBadge.textContent = filteredData.length;
+
+                filteredData.forEach(item => {
+                    const isSelected = state.selectedIds.has(item.id);
+
+                    const card = document.createElement('div');
+                    card.className = `
+                        group relative p-4 rounded-xl border cursor-pointer transition-all duration-200 select-none
+                        flex flex-col gap-2 h-28 justify-center
+                        ${isSelected
+                            ? 'bg-slate-800 border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg shadow-indigo-500/20'
+                            : 'bg-slate-800 border-slate-700 hover:border-slate-600 hover:shadow-lg hover:shadow-black/20 hover:-translate-y-1'
+                        }
+                    `;
+                    card.onclick = () => toggleSelection(item.id);
+
+                    // Checkmark Icon
+                    const checkIcon = `
+                        <div class="absolute top-3 right-3 h-5 w-5 rounded-full border ${isSelected ? 'border-indigo-500 bg-indigo-500 text-white' : 'border-slate-600 bg-slate-900/50 text-transparent group-hover:border-slate-500'} flex items-center justify-center transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    `;
+
+                    // Icon/Logo Placeholder based on category (simple approach)
+                    let iconColor = 'text-slate-400';
+                    if (isSelected) iconColor = 'text-indigo-400';
+                    else if (['Runtime', 'Framework'].includes(item.category)) iconColor = 'text-emerald-400';
+                    else if (['OS'].includes(item.category)) iconColor = 'text-blue-400';
+
+                    card.innerHTML = `
+                        ${checkIcon}
+                        <div class="${iconColor} transition-colors">
+                            <!-- Helper to distinguish types slightly -->
+                            <span class="text-xs font-mono opacity-60 uppercase tracking-wider border border-current px-1.5 py-0.5 rounded-full text-[10px]">${item.category}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-100 ${isSelected ? 'text-indigo-100' : ''}">${item.name}</h3>
+                    `;
+                    els.grid.appendChild(card);
+                });
+            }
+
+            // 3. Render Preview
+            const activeItems = GITIGNORE_DATA.filter(item => state.selectedIds.has(item.id));
+            if (activeItems.length > 0) {
+                const combinedContent = activeItems
+                    .map(item => item.content)
+                    .join('\n\n');
+
+                // Add header info
+                const fileHeader = "# Created by .gitignore Generator\n# Date: " + new Date().toLocaleDateString() + "\n\n";
+                els.preview.value = fileHeader + combinedContent;
+                els.preview.classList.remove('opacity-50', 'italic');
+
+                // Enable buttons
+                els.btnCopy.disabled = false;
+                els.btnCopy.classList.remove('opacity-50', 'cursor-not-allowed');
+                els.btnDownload.disabled = false;
+                els.btnDownload.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                // Show Clear button
+                els.btnClear.classList.remove('hidden');
+                els.btnClear.textContent = `Clear (${activeItems.length})`;
+            } else {
+                els.preview.value = "";
+                els.preview.placeholder = "# Select templates from the left to generate your file...\n# e.g. Node.js, Windows, VS Code";
+                // Disable buttons
+                els.btnCopy.disabled = true;
+                els.btnCopy.classList.add('opacity-50', 'cursor-not-allowed');
+                els.btnDownload.disabled = true;
+                els.btnDownload.classList.add('opacity-50', 'cursor-not-allowed');
+                // Hide Clear button
+                els.btnClear.classList.add('hidden');
+            }
+        }
+
+        // --- ACTIONS ---
+        function toggleSelection(id) {
+            if (state.selectedIds.has(id)) {
+                state.selectedIds.delete(id);
+            } else {
+                state.selectedIds.add(id);
+            }
+            render();
+        }
+
+        function clearAll() {
+            state.selectedIds.clear();
+            render();
+        }
+
+        async function copyToClipboard() {
+            if (!els.preview.value) return;
+
+            try {
+                // Try modern API first
+                await navigator.clipboard.writeText(els.preview.value);
+                showCopyFeedback();
+            } catch (err) {
+                // Fallback for non-secure contexts (e.g., local file://)
+                try {
+                    els.preview.select();
+                    document.execCommand('copy');
+                    // Deselect to avoid visual clutter
+                    window.getSelection().removeAllRanges();
+                    showCopyFeedback();
+                } catch (fallbackErr) {
+                    console.error('Failed to copy!', err, fallbackErr);
+                    alert("Unable to copy to clipboard automatically. Please copy manually.");
+                }
+            }
+        }
+
+        function showCopyFeedback() {
+            if (copyTimeout) clearTimeout(copyTimeout);
+
+            // Feedback animation
+            els.btnCopy.classList.remove('bg-slate-700', 'text-slate-200');
+            els.btnCopy.classList.add('bg-emerald-600', 'text-white', 'border-transparent');
+            els.btnCopy.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span>Copied!</span>
+            `;
+
+            copyTimeout = setTimeout(() => {
+                els.btnCopy.innerHTML = originalCopyHtml;
+                els.btnCopy.classList.add('bg-slate-700', 'text-slate-200');
+                els.btnCopy.classList.remove('bg-emerald-600', 'text-white', 'border-transparent');
+            }, 2000);
+        }
+
+        function downloadFile() {
+            if (!els.preview.value) return;
+
+            const blob = new Blob([els.preview.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '.gitignore';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- EVENT LISTENERS ---
+        els.search.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            render();
+        });
+
+        // Keyboard Shortcut for Search (Ctrl+K or Cmd+K)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                els.search.focus();
+            }
+        });
+
+        els.btnCopy.addEventListener('click', copyToClipboard);
+        els.btnDownload.addEventListener('click', downloadFile);
+        els.btnClear.addEventListener('click', clearAll);
+
+        // --- INITIALIZATION ---
+        // Pre-select Node.js as an example to show UI state + empty state prevention
+        // state.selectedIds.add('node'); // Optional: Uncomment to start with something selected
+        render();
+
+    </script>
+</body>
+
+</html>

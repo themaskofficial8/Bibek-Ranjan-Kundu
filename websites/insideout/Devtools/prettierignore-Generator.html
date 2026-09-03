@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.prettierignore Generator</title>
+    <meta name="description" content="Generate a Zero-Distraction .prettierignore file.">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout">
+
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Inter for UI, Fira Code for Monospace -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'Courier New', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#c026d3', // Pink-600 approx, fitting Prettier vibe
+                            glow: 'rgba(236, 72, 153, 0.5)'
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px -3px rgba(236, 72, 153, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            /* Pure Black OLED */
+        }
+
+        /* Custom Scrollbar for Terminal look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #171717;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #525252;
+        }
+
+        .terminal-text {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body class="text-neutral-300 font-sans min-h-screen flex flex-col selection:bg-pink-900 selection:text-pink-100">
+
+    <!-- Header -->
+    <header class="border-b border-neutral-800 bg-black/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+            <h1 class="text-xl font-bold tracking-tight text-neutral-100 flex items-center gap-2">
+                <span class="text-pink-500 font-mono text-2xl">{}</span>
+                .prettierignore Generator
+            </h1>
+            <div class="text-xs font-mono text-neutral-600 uppercase tracking-widest hidden sm:block">
+                OLED Mode
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-10 flex flex-col lg:flex-row gap-10">
+
+        <!-- Left: Configuration Grid -->
+        <section class="flex-1">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-sm font-semibold text-neutral-500 uppercase tracking-wider mb-1">Configuration</h2>
+                    <p class="text-neutral-400 text-sm">Select categories to exclude from formatting.</p>
+                </div>
+                <button onclick="app.toggleAll()" id="btn-toggle-all"
+                    class="text-xs font-mono text-pink-500 hover:text-pink-400 underline decoration-pink-500/30 hover:decoration-pink-500 transition-all">
+                    Toggle All
+                </button>
+            </div>
+
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- Right: Terminal Preview -->
+        <aside class="w-full lg:w-[28rem] xl:w-[32rem] flex flex-col gap-4">
+
+            <div class="lg:sticky lg:top-28">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <h2 class="text-sm font-semibold text-neutral-500 uppercase tracking-wider">Preview</h2>
+                    <div class="flex gap-2 text-[10px] font-mono text-neutral-600">
+                        <span class="animate-pulse">●</span> LIVE
+                    </div>
+                </div>
+
+                <div
+                    class="bg-neutral-900 border border-neutral-800 rounded-lg shadow-2xl overflow-hidden flex flex-col h-[600px] lg:h-[calc(100vh-10rem)]">
+                    <!-- Fake Terminal Header -->
+                    <div class="bg-neutral-950 border-b border-neutral-800 p-3 flex items-center gap-2">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-neutral-700"></div>
+                            <div class="w-3 h-3 rounded-full bg-neutral-700"></div>
+                            <div class="w-3 h-3 rounded-full bg-neutral-700"></div>
+                        </div>
+                        <div class="ml-4 text-xs font-mono text-neutral-500">vim .prettierignore</div>
+                    </div>
+
+                    <!-- Editor -->
+                    <div class="relative flex-grow bg-neutral-950 group">
+                        <textarea id="preview-area"
+                            class="w-full h-full bg-neutral-950 text-neutral-300 p-5 font-mono text-sm leading-relaxed resize-none focus:outline-none terminal-text"
+                            readonly spellcheck="false"></textarea>
+
+                        <!-- Actions Overlay (Bottom) -->
+                        <div class="absolute bottom-6 left-6 right-6 flex gap-3">
+                            <button onclick="app.copyToClipboard()" id="btn-copy"
+                                class="flex-1 bg-neutral-100 hover:bg-white text-black font-semibold py-3 rounded shadow-[0_0_15px_-3px_rgba(255,255,255,0.3)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.5)] transition-all active:scale-[0.98] flex justify-center items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" opacity="0.6"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                <span>Copy</span>
+                            </button>
+                            <button onclick="app.downloadFile()"
+                                class="px-5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 font-medium rounded transition-colors active:scale-[0.98]"
+                                title="Download File">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="border-t border-neutral-900 py-8 mt-auto">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-neutral-700 text-sm font-mono">
+                &copy; 2026 Insideout.bond | A platform of innovation.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        const DATA = [
+            {
+                id: 'deps',
+                name: 'Dependency Management',
+                desc: 'Lockfiles & modules',
+                items: ['node_modules', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock']
+            },
+            {
+                id: 'build',
+                name: 'Build Artifacts',
+                desc: 'Output directories',
+                items: ['dist', 'build', 'out', 'coverage', '.turbo']
+            },
+            {
+                id: 'framework',
+                name: 'Framework Internals',
+                desc: 'Next, Nuxt, Svelte, Astro',
+                items: ['.next', '.nuxt', '.svelte-kit', '.astro']
+            },
+            {
+                id: 'system',
+                name: 'System & Env',
+                desc: 'OS files & Secrets',
+                items: ['.DS_Store', '.env', '.env.local', '.env.*']
+            },
+            {
+                id: 'assets',
+                name: 'Assets & Minified',
+                desc: 'Static & Production files',
+                items: ['public/', '*.min.js', '*.min.css', '*.svg']
+            }
+        ];
+
+        const app = {
+            state: {
+                selected: new Set(DATA.map(d => d.id)) // Default: All selected
+            },
+
+            els: {
+                grid: document.getElementById('grid-container'),
+                preview: document.getElementById('preview-area'),
+                btnCopy: document.getElementById('btn-copy'),
+            },
+
+            init() {
+                this.renderGrid();
+                this.renderPreview();
+            },
+
+            toggle(id) {
+                if (this.state.selected.has(id)) {
+                    this.state.selected.delete(id);
+                } else {
+                    this.state.selected.add(id);
+                }
+                this.renderGrid();
+                this.renderPreview();
+            },
+
+            toggleAll() {
+                const allSelected = this.state.selected.size === DATA.length;
+                if (allSelected) {
+                    this.state.selected.clear();
+                } else {
+                    DATA.forEach(d => this.state.selected.add(d.id));
+                }
+                this.renderGrid();
+                this.renderPreview();
+            },
+
+            renderGrid() {
+                this.els.grid.innerHTML = DATA.map(cat => {
+                    const isSelected = this.state.selected.has(cat.id);
+                    return `
+                        <div 
+                            onclick="app.toggle('${cat.id}')"
+                            class="
+                                cursor-pointer group select-none
+                                p-5 rounded-lg border transition-all duration-200 relative overflow-hidden
+                                flex flex-col gap-3 min-h-[140px]
+                                ${isSelected
+                            ? 'bg-neutral-900 border-pink-500 shadow-neon'
+                            : 'bg-neutral-900 border-neutral-800 hover:border-neutral-700 opacity-60 hover:opacity-100'
+                        }
+                            "
+                        >
+                            <div class="flex justify-between items-start">
+                                <div class="p-2 rounded bg-black border border-neutral-800">
+                                    <div class="w-4 h-4 rounded-sm border ${isSelected ? 'bg-pink-500 border-pink-500' : 'list-none border-neutral-600'} flex items-center justify-center">
+                                        ${isSelected ? '<svg class="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>' : ''}
+                                    </div>
+                                </div>
+                                <span class="text-[10px] font-mono text-neutral-600 uppercase tracking-widest">${cat.items.length} Rules</span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-neutral-200 font-bold mb-1 group-hover:text-white transition-colors">
+                                    ${cat.name}
+                                </h3>
+                                <p class="text-xs text-neutral-500 font-mono">
+                                    ${cat.desc}
+                                </p>
+                            </div>
+
+                            <!-- Subtle code peek -->
+                            <div class="mt-auto pt-2 border-t border-dashed border-neutral-800">
+                                <code class="text-[10px] text-neutral-600 font-mono truncate block">
+                                    ${cat.items.slice(0, 3).join(', ')}...
+                                </code>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            renderPreview() {
+                let content = "# .prettierignore\n# Generated by Zero-Distraction Tool\n\n";
+
+                if (this.state.selected.size === 0) {
+                    content += "# No categories selected.\n# Click on the cards to add rules.";
+                } else {
+                    DATA.forEach(cat => {
+                        if (this.state.selected.has(cat.id)) {
+                            content += `# --- ${cat.name} ---\n`;
+                            content += cat.items.join('\n');
+                            content += '\n\n';
+                        }
+                    });
+                }
+
+                this.els.preview.value = content;
+            },
+
+            async copyToClipboard() {
+                const text = this.els.preview.value;
+                if (!text) return;
+
+                const originalHTML = this.els.btnCopy.innerHTML;
+
+                try {
+                    await navigator.clipboard.writeText(text);
+                    this.showSuccess(originalHTML);
+                } catch (err) {
+                    try {
+                        this.els.preview.select();
+                        document.execCommand('copy');
+                        window.getSelection().removeAllRanges();
+                        this.showSuccess(originalHTML);
+                    } catch (e) {
+                        alert("Manual copy required.");
+                    }
+                }
+            },
+
+            showSuccess(originalHTML) {
+                const btn = this.els.btnCopy;
+                btn.innerHTML = `
+                    <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-pink-600">Copied!</span>
+                `;
+                btn.classList.add('ring-2', 'ring-pink-500', 'ring-offset-2', 'ring-offset-black');
+
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('ring-2', 'ring-pink-500', 'ring-offset-2', 'ring-offset-black');
+                }, 2000);
+            },
+
+            downloadFile() {
+                const text = this.els.preview.value;
+                const blob = new Blob([text], { type: "text/plain" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = ".prettierignore";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        };
+
+        // Run
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+
+</html>
