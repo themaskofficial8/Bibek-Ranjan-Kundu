@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Chain - Infinite Puzzle</title>
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+    <meta name="application-name" content="Inbondz">
+     <!-- auto ads  -->
+     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+     crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .word-history-item {
+            animation: slideIn 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight-char {
+            color: #764ba2;
+            font-weight: 800;
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+            text-decoration-color: #fbbf24;
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #764ba2;
+            width: 20px;
+            height: 20px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar for history */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1605V9LS1K');
+</script>
+<body class="flex items-center justify-center p-4">
+
+    <!-- Main Game Container -->
+    <div class="glass-panel w-full max-w-md p-6 relative overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-link text-indigo-600 mr-2"></i>WordChain</h1>
+                <p class="text-xs text-gray-500">Don't break the chain!</p>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Score</div>
+                <div id="scoreDisplay" class="text-3xl font-bold text-indigo-600">0</div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="text-center py-8">
+            <div class="mb-6 text-6xl text-indigo-500">
+                <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <p class="text-gray-600 mb-6 px-4">
+                The game gives you a word. You must type a new word that starts with the <b>last letter</b> of the previous word.
+            </p>
+            <button onclick="startGame()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 shadow-lg">
+                Start Game
+            </button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="hidden text-center py-8">
+            <div class="mb-4 text-6xl text-red-500">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Game Over!</h2>
+            <p class="text-gray-600 mb-6">You broke the chain.</p>
+            <p class="text-xl font-bold text-indigo-600 mb-8">Final Score: <span id="finalScore">0</span></p>
+            <button onclick="startGame()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 shadow-lg">
+                Play Again
+            </button>
+        </div>
+
+        <!-- Playing UI -->
+        <div id="gameUI" class="hidden">
+            
+            <!-- Timer Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div id="timerBar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-1000" style="width: 100%"></div>
+            </div>
+
+            <!-- Current Word Display -->
+            <div class="text-center mb-8">
+                <p class="text-sm text-gray-400 uppercase tracking-widest mb-1">Previous Word</p>
+                <div id="currentWordDisplay" class="text-4xl font-bold text-gray-800 break-words">
+                    <!-- Javascript will populate this -->
+                    TES<span class="highlight-char">T</span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="relative mb-2">
+                <input type="text" id="wordInput" autocomplete="off"
+                    class="w-full border-2 border-gray-200 rounded-xl px-4 py-4 text-lg focus:outline-none focus:border-indigo-500 transition shadow-sm placeholder-gray-400"
+                    placeholder="Type a word..." disabled>
+                <div id="loadingSpinner" class="hidden absolute right-4 top-5">
+                    <div class="loader"></div>
+                </div>
+            </div>
+            
+            <!-- Feedback Message -->
+            <div id="feedbackMessage" class="h-6 text-center text-sm font-semibold text-red-500 mb-4 opacity-0 transition-opacity">
+                <!-- Error messages go here -->
+            </div>
+
+            <button id="submitBtn" onclick="submitWord()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition shadow-md mb-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                Submit
+            </button>
+
+            <!-- History List -->
+            <div class="border-t border-gray-100 pt-4">
+                <p class="text-xs text-gray-400 font-bold uppercase mb-2">Chain History</p>
+                <div id="historyList" class="custom-scroll h-32 overflow-y-auto space-y-2 pr-2">
+                    <!-- History items injected here -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Game State
+        const STARTING_WORDS = ["apple", "bread", "chair", "dance", "eagle", "fruit", "grape", "house", "igloo", "jelly"];
+        let currentWord = "";
+        let usedWords = new Set();
+        let score = 0;
+        let timer = null;
+        let timeLeft = 0;
+        const TIME_PER_TURN = 20; // Seconds
+
+        // DOM Elements
+        const startScreen = document.getElementById('startScreen');
+        const gameUI = document.getElementById('gameUI');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const finalScore = document.getElementById('finalScore');
+        const currentWordDisplay = document.getElementById('currentWordDisplay');
+        const wordInput = document.getElementById('wordInput');
+        const historyList = document.getElementById('historyList');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const timerBar = document.getElementById('timerBar');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Sounds (Optional, using browser synthesis for simplicity if needed, but omitted for pure file size)
+
+        function startGame() {
+            // Reset State
+            score = 0;
+            usedWords.clear();
+            scoreDisplay.textContent = "0";
+            historyList.innerHTML = "";
+            
+            // UI Switch
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            gameUI.classList.remove('hidden');
+
+            // Pick Random Start Word
+            const randomStart = STARTING_WORDS[Math.floor(Math.random() * STARTING_WORDS.length)];
+            setNewWord(randomStart);
+
+            // Setup Input
+            wordInput.disabled = false;
+            wordInput.value = "";
+            wordInput.focus();
+            
+            startTimer();
+        }
+
+        function setNewWord(word) {
+            currentWord = word.toLowerCase();
+            usedWords.add(currentWord);
+            
+            // Display Logic: Highlight last letter
+            const mainPart = currentWord.slice(0, -1);
+            const lastChar = currentWord.slice(-1);
+            
+            currentWordDisplay.innerHTML = `${mainPart}<span class="highlight-char">${lastChar.toUpperCase()}</span>`;
+            
+            // Add to history (unless it's the very first word logic tweak)
+            // Ideally we add the *previous* word to history, but for visuals we just stack them.
+            if (score > 0) {
+                 // Nothing special, history is updated in handleSuccess
+            }
+            
+            // Update Placeholder
+            wordInput.placeholder = `Starts with '${lastChar.toUpperCase()}'...`;
+        }
+
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            timeLeft = TIME_PER_TURN;
+            updateTimerVisual();
+
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerVisual();
+
+                if (timeLeft <= 0) {
+                    endGame("Time's up!");
+                }
+            }, 1000);
+        }
+
+        function updateTimerVisual() {
+            const percentage = (timeLeft / TIME_PER_TURN) * 100;
+            timerBar.style.width = `${percentage}%`;
+            
+            if (percentage < 30) {
+                timerBar.className = "h-2.5 rounded-full transition-all duration-1000 bg-red-500";
+            } else {
+                timerBar.className = "h-2.5 rounded-full transition-all duration-1000 bg-indigo-600";
+            }
+        }
+
+        function endGame(reason) {
+            clearInterval(timer);
+            gameUI.classList.add('hidden');
+            gameOverScreen.classList.remove('hidden');
+            finalScore.textContent = score;
+            wordInput.value = "";
+            // Can add reason text to game over screen if desired
+        }
+
+        function showError(msg) {
+            feedbackMessage.textContent = msg;
+            feedbackMessage.style.opacity = "1";
+            wordInput.parentElement.classList.add('shake');
+            
+            setTimeout(() => {
+                feedbackMessage.style.opacity = "0";
+                wordInput.parentElement.classList.remove('shake');
+            }, 2000);
+        }
+
+        async function submitWord() {
+            const inputVal = wordInput.value.trim().toLowerCase();
+            const lastChar = currentWord.slice(-1);
+
+            // 1. Basic Validation
+            if (!inputVal) return;
+            
+            if (inputVal.charAt(0) !== lastChar) {
+                showError(`Must start with the letter '${lastChar.toUpperCase()}'!`);
+                wordInput.value = "";
+                wordInput.focus();
+                return;
+            }
+
+            if (usedWords.has(inputVal)) {
+                showError("You already used that word!");
+                wordInput.value = "";
+                wordInput.focus();
+                return;
+            }
+
+            // 2. API Validation
+            setIsLoading(true);
+            
+            try {
+                const isValid = await checkDictionary(inputVal);
+                
+                if (isValid) {
+                    handleSuccess(inputVal);
+                } else {
+                    showError("Not a valid English word!");
+                }
+            } catch (err) {
+                console.error(err);
+                // Fallback: If API fails (offline), we might just accept it to keep game playable
+                // For this demo, we assume API works or user has internet.
+                showError("Network error checking word.");
+            } finally {
+                setIsLoading(false);
+                wordInput.value = "";
+                wordInput.focus();
+            }
+        }
+
+        async function checkDictionary(word) {
+            try {
+                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+                if (response.status === 404) return false;
+                return true;
+            } catch (error) {
+                // Determine functionality based on network availability
+                // If totally offline, maybe simple length check > 1
+                return word.length > 1; 
+            }
+        }
+
+        function handleSuccess(newWord) {
+            // Update Score
+            score++;
+            scoreDisplay.textContent = score;
+
+            // Add previous word to history visually
+            addToHistory(currentWord);
+
+            // Set new word
+            setNewWord(newWord);
+
+            // Reset Timer
+            startTimer();
+        }
+
+        function addToHistory(word) {
+            const item = document.createElement('div');
+            item.className = "word-history-item bg-gray-50 px-3 py-2 rounded-lg text-gray-600 text-sm flex justify-between";
+            item.innerHTML = `<span>${word}</span> <i class="fas fa-check text-green-400"></i>`;
+            historyList.prepend(item);
+        }
+
+        function setIsLoading(loading) {
+            if (loading) {
+                loadingSpinner.classList.remove('hidden');
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-75');
+            } else {
+                loadingSpinner.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75');
+            }
+        }
+
+        // Input Event Listeners
+        wordInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                submitWord();
+            }
+        });
+
+    </script>
+</body>
+</html>

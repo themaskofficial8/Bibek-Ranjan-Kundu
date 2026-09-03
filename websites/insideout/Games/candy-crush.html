@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Candy Crush</title>
+    <meta name="description"
+        content="Play the Sweet Match-3 Candy Crush game online. Match candies, score points, and enjoy the juice match-3 experience.">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+    <meta name="application-name" content="Insideout">
+
+    <!-- auto ads  -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2280832801216201"
+        crossorigin="anonymous"></script> -->
+    <!-- auto ads end  -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1605V9LS1K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1605V9LS1K');
+    </script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a2e;
+            /* Dark fallback */
+            font-family: 'Segoe UI', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+            /* Prevent scroll on mobile */
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            color: #fff;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            letter-spacing: 2px;
+            font-weight: 800;
+            transform: skewX(-5deg);
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ui-layer">
+        <h1>Sweet Match</h1>
+        <p>Drag to swap. Match 3 to clear.</p>
+    </div>
+
+    <!-- Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- CONSTANTS & CONFIG ---
+        const CONFIG = {
+            gridSize: 8,
+            cellSize: 1.2,
+            animSpeed: 0.15, // Lerp factor (0-1)
+            colors: [0xff4d4d, 0x4dff4d, 0x4d4dff, 0xffd94d, 0xff4dff, 0x4dffff], // Red, Green, Blue, Yellow, Purple, Cyan
+        };
+
+        const STATE = {
+            IDLE: 0,
+            ANIMATING: 1
+        };
+
+        // --- GLOBALS ---
+        let scene, camera, renderer;
+        let raycaster, mouse;
+        let gameState = STATE.IDLE;
+
+        // Model & View
+        let board = [];      // 8x8 Integers
+        let viewBoard = [];  // 8x8 THREE.Mesh
+        let particles = [];
+        let bgMesh; // Dynamic background
+
+        // Input
+        let selectedGem = null;
+        let dragStartPos = new THREE.Vector2();
+
+        // Assets
+        let geometries = [];
+        let sweetMaterial;
+
+        // --- INITIALIZATION ---
+        function init() {
+            // 1. Setup Three.js
+            scene = new THREE.Scene();
+
+            // Camera setup to center the board
+            const aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 100);
+            updateCameraPosition(); // Handle mobile/desktop zoom
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.body.appendChild(renderer.domElement);
+
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            // 2. Lighting
+            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambient);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
+
+            const pointLight = new THREE.PointLight(0xffffff, 0.5);
+            pointLight.position.set(0, 0, 10);
+            scene.add(pointLight);
+
+            // 3. Gamey Background
+            createDynamicBackground();
+
+            // 4. Assets
+            createAssets();
+
+            // 5. Game Setup
+            initBoard();
+            createBoardView();
+
+            // 6. Events
+            window.addEventListener('resize', onResize);
+            window.addEventListener('mousedown', onMouseDown);
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+            // Touch support
+            window.addEventListener('touchstart', (e) => onMouseDown(e.touches[0]));
+            window.addEventListener('touchmove', (e) => onMouseMove(e.touches[0]));
+            window.addEventListener('touchend', onMouseUp);
+
+            // 7. Loop
+            animate();
+        }
+
+        function updateCameraPosition() {
+            // Board Dimensions
+            const boardWidth = CONFIG.gridSize * CONFIG.cellSize;
+            // Add padding
+            const padding = 2.0;
+            const targetWidth = boardWidth + padding;
+
+            // Calculate required distance based on FOV (Vertical) and Aspect Ratio (Horizontal)
+            const aspect = window.innerWidth / window.innerHeight;
+            const vFov = camera.fov * (Math.PI / 180);
+
+            // Distance to fit height
+            let dist = (targetWidth / 2) / Math.tan(vFov / 2);
+
+            // If portrait (aspect < 1), we need to zoom out even more to fit width
+            if (aspect < 1) {
+                dist = dist / aspect;
+            }
+
+            // Adjust center
+            // Grid is centered at roughly (0,0) due to offset math in getWorldPos
+            // But we push Z
+            camera.position.set(0, 0, Math.max(dist, 14));
+            camera.lookAt(0, 0, 0);
+        }
+
+        function createDynamicBackground() {
+            // We use a big plane behind everything
+            const geometry = new THREE.PlaneGeometry(100, 100);
+
+            // Custom Shader for "Gamey" Pattern
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uColor1: { value: new THREE.Color(0x2b1055) }, // Deep Purple
+                    uColor2: { value: new THREE.Color(0x7597de) }  // Soft Blue
+                },
+                vertexShader: `
+                    varying vec2 vUv;
+                    void main() {
+                        vUv = uv;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform float uTime;
+                    uniform vec3 uColor1;
+                    uniform vec3 uColor2;
+                    varying vec2 vUv;
+
+                    void main() {
+                        // Scrolling diagonal stripes
+                        vec2 grid = vUv * 20.0;
+                        float offset = uTime * 0.5;
+                        
+                        // Create diagonal pattern
+                        float stripes = step(0.5, fract((grid.x + grid.y + offset) * 0.5));
+                        
+                        // Soft pulsing gradient
+                        float pulse = sin(uTime * 0.2) * 0.2 + 0.8;
+                        
+                        // Mix colors
+                        vec3 color = mix(uColor1, uColor2, vUv.y * pulse);
+                        
+                        // Add pattern
+                        color = mix(color, color * 1.1, stripes * 0.1); // subtle brighten on stripe
+                        
+                        // Vignette
+                        float dist = distance(vUv, vec2(0.5));
+                        color *= 1.0 - dist * 0.5;
+
+                        gl_FragColor = vec4(color, 1.0);
+                    }
+                `,
+                side: THREE.BackSide // Ensure it's behind if we wrap, but Plane is usually Front
+            });
+
+            bgMesh = new THREE.Mesh(geometry, material);
+            bgMesh.position.z = -20; // Behind board
+            scene.add(bgMesh);
+        }
+
+        function createAssets() {
+            // "Candy" Material
+            sweetMaterial = new THREE.MeshPhysicalMaterial({
+                roughness: 0.1,
+                metalness: 0.1,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1,
+                reflectivity: 0.8
+            });
+
+            // Geometries
+            geometries = [
+                new THREE.SphereGeometry(0.45, 32, 32),
+                new THREE.BoxGeometry(0.75, 0.75, 0.75),
+                new THREE.OctahedronGeometry(0.5),
+                new THREE.IcosahedronGeometry(0.5),
+                new THREE.TorusGeometry(0.3, 0.15, 16, 32),
+                new THREE.ConeGeometry(0.4, 0.8, 32)
+            ];
+        }
+
+        // --- MODEL CONTROLLER ---
+        function initBoard() {
+            // Fill board preventing initial matches
+            board = [];
+            for (let y = 0; y < CONFIG.gridSize; y++) {
+                let row = [];
+                for (let x = 0; x < CONFIG.gridSize; x++) {
+                    let type;
+                    // Keep generating type until no match-3 exists
+                    do {
+                        type = Math.floor(Math.random() * 6);
+                    } while (
+                        (x >= 2 && row[x - 1] === type && row[x - 2] === type) ||
+                        (y >= 2 && board[y - 1][x] === type && board[y - 2][x] === type)
+                    );
+                    row.push(type);
+                }
+                board.push(row);
+            }
+            // Init empty view board
+            viewBoard = Array(CONFIG.gridSize).fill(null).map(() => Array(CONFIG.gridSize).fill(null));
+        }
+
+        // --- VIEW CONTROLLER ---
+        function getWorldPos(x, y) {
+            // Center the grid
+            const offsetX = (CONFIG.gridSize - 1) * CONFIG.cellSize / 2;
+            const offsetY = (CONFIG.gridSize - 1) * CONFIG.cellSize / 2;
+            return new THREE.Vector3(
+                x * CONFIG.cellSize - offsetX,
+                y * CONFIG.cellSize - offsetY,
+                0
+            );
+        }
+
+        function createGemMesh(type, x, y) {
+            const mat = sweetMaterial.clone();
+            mat.color.setHex(CONFIG.colors[type]);
+            mat.emissive.setHex(CONFIG.colors[type]);
+            mat.emissiveIntensity = 0.2;
+
+            const mesh = new THREE.Mesh(geometries[type], mat);
+            const pos = getWorldPos(x, y);
+
+            // Set Initial positions
+            mesh.position.copy(pos);
+            mesh.targetPos = pos.clone(); // Custom property for animation
+            mesh.gridX = x; // Store grid info on mesh for easy raycasting lookup
+            mesh.gridY = y;
+            mesh.userData.isGem = true;
+
+            scene.add(mesh);
+            return mesh;
+        }
+
+        function createBoardView() {
+            // Clean old
+            viewBoard.forEach(row => row.forEach(m => { if (m) scene.remove(m); }));
+
+            for (let y = 0; y < CONFIG.gridSize; y++) {
+                for (let x = 0; x < CONFIG.gridSize; x++) {
+                    viewBoard[y][x] = createGemMesh(board[y][x], x, y);
+                }
+            }
+        }
+
+        // --- ANIMATION SYSTEM ---
+        function animate(time) {
+            requestAnimationFrame(animate);
+
+            // Update Background uniform
+            if (bgMesh && bgMesh.material.uniforms) {
+                bgMesh.material.uniforms.uTime.value = time * 0.001;
+            }
+
+            let isAnimatingVector = false;
+
+            // 1. Gem Movement Animation
+            for (let y = 0; y < CONFIG.gridSize; y++) {
+                for (let x = 0; x < CONFIG.gridSize; x++) {
+                    const mesh = viewBoard[y][x];
+                    if (mesh) {
+                        // Lerp Position
+                        if (mesh.position.distanceToSquared(mesh.targetPos) > 0.001) {
+                            mesh.position.lerp(mesh.targetPos, CONFIG.animSpeed);
+                            isAnimatingVector = true;
+                        } else {
+                            // Snap
+                            mesh.position.copy(mesh.targetPos);
+                        }
+
+                        // Passive Rotation (Juice)
+                        mesh.rotation.x += 0.01;
+                        mesh.rotation.y += 0.01;
+                    }
+                }
+            }
+
+            // 2. Particle Animation
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.mesh.position.add(p.velocity);
+                p.mesh.scale.multiplyScalar(0.9); // Shrink
+                p.mesh.material.opacity = p.mesh.scale.x;
+
+                if (p.mesh.scale.x < 0.05) {
+                    scene.remove(p.mesh);
+                    particles.splice(i, 1);
+                }
+            }
+
+            // 3. State Machine Resolution
+            if (gameState === STATE.ANIMATING && !isAnimatingVector) {
+                // Animation settled, trigger next logic step
+                onAnimationComplete();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        let animationPhase = 'IDLE'; // Sub-state to track 'SWAP', 'REVERT', 'MATCH'
+
+        function onAnimationComplete() {
+            if (animationPhase === 'SWAP') {
+                // Check matches
+                const matches = findMatches();
+                if (matches.length > 0) {
+                    animationPhase = 'MATCH';
+                    handleMatches(matches); // Will trigger drop animation
+                } else {
+                    // No match, revert
+                    revertSwap();
+                }
+            } else if (animationPhase === 'REVERT') {
+                gameState = STATE.IDLE;
+                animationPhase = 'IDLE';
+                selectedGem = null;
+            } else if (animationPhase === 'FILL') {
+                // After filling, check matches again (cascading)
+                const matches = findMatches();
+                if (matches.length > 0) {
+                    animationPhase = 'MATCH';
+                    handleMatches(matches);
+                } else {
+                    gameState = STATE.IDLE;
+                    animationPhase = 'IDLE';
+                    selectedGem = null;
+                }
+            }
+        }
+
+        // --- INTERACTION LOGIC ---
+        function onMouseDown(event) {
+            if (gameState === STATE.ANIMATING) return;
+
+            // Handle both touch/mouse normalize logic here or in caller.
+            // event might be Touch object which has clientX/Y too.
+            const cx = event.clientX;
+            const cy = event.clientY;
+
+            mouse.x = (cx / window.innerWidth) * 2 - 1;
+            mouse.y = -(cy / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(scene.children);
+
+            const hit = intersects.find(i => i.object.userData.isGem);
+            if (hit) {
+                selectedGem = hit.object;
+                dragStartPos.set(cx, cy);
+                // Highlight
+                selectedGem.scale.set(1.2, 1.2, 1.2);
+            }
+        }
+
+        function onMouseMove(event) {
+            // Just for visual drag feel? Or just logic. 
+        }
+
+        function onMouseUp(event) {
+            if (!selectedGem || gameState === STATE.ANIMATING) return;
+
+            // Reset scale
+            selectedGem.scale.set(1, 1, 1);
+
+            // To handle mouseup(MouseEvent) vs touchend(TouchEvent)
+            // TouchEnd doesn't have clientX usually, we rely on DragStart math vs LastTouchMove?
+            // Actually, we can just use the last moved position... but simplest is just checking if we exist.
+            // For simplicity in this constrained 'single-file' robust touch logic:
+            // We use 'event.changedTouches' if it exists.
+
+            let cx, cy;
+            if (event.changedTouches && event.changedTouches.length > 0) {
+                cx = event.changedTouches[0].clientX;
+                cy = event.changedTouches[0].clientY;
+            } else {
+                cx = event.clientX;
+                cy = event.clientY;
+            }
+
+            const dx = cx - dragStartPos.x;
+            const dy = cy - dragStartPos.y;
+
+            // Determine direction if drag is long enough
+            if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
+                let dirX = 0;
+                let dirY = 0;
+
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    dirX = dx > 0 ? 1 : -1;
+                } else {
+                    // Screen Y increases down. Moving mouse UP decreases Y.
+                    // dy < 0 means UP. In 3D Grid, Y increases Up.
+                    dirY = dy < 0 ? 1 : -1;
+                }
+
+                attemptSwap(selectedGem.gridX, selectedGem.gridY, selectedGem.gridX + dirX, selectedGem.gridY + dirY);
+            }
+
+            selectedGem = null;
+        }
+
+        let swapInfo = null; // Store for revert
+
+        function attemptSwap(x1, y1, x2, y2) {
+            // Bounds check
+            if (x2 < 0 || x2 >= CONFIG.gridSize || y2 < 0 || y2 >= CONFIG.gridSize) return;
+
+            gameState = STATE.ANIMATING;
+            animationPhase = 'SWAP';
+            swapInfo = { x1, y1, x2, y2 };
+
+            // 1. Swap Logic Model
+            const temp = board[y1][x1];
+            board[y1][x1] = board[y2][x2];
+            board[y2][x2] = temp;
+
+            // 2. Swap Logic View
+            const mesh1 = viewBoard[y1][x1];
+            const mesh2 = viewBoard[y2][x2];
+
+            // Update Grid Coords on Meshes
+            mesh1.gridX = x2; mesh1.gridY = y2;
+            mesh2.gridX = x1; mesh2.gridY = y1;
+
+            // Swap in View Array
+            viewBoard[y1][x1] = mesh2;
+            viewBoard[y2][x2] = mesh1;
+
+            // 3. Set Targets
+            const pos1 = getWorldPos(x1, y1);
+            const pos2 = getWorldPos(x2, y2);
+
+            viewBoard[y1][x1].targetPos.copy(pos1);
+            viewBoard[y2][x2].targetPos.copy(pos2);
+        }
+
+        function revertSwap() {
+            if (!swapInfo) return;
+            const { x1, y1, x2, y2 } = swapInfo;
+
+            animationPhase = 'REVERT'; // Next time anim finishes, we go to IDLE
+
+            // Swap Back Model
+            const temp = board[y1][x1];
+            board[y1][x1] = board[y2][x2];
+            board[y2][x2] = temp;
+
+            // Swap Back View
+            const mesh1 = viewBoard[y1][x1];
+            const mesh2 = viewBoard[y2][x2];
+
+            mesh1.gridX = x2; mesh1.gridY = y2;
+            mesh2.gridX = x1; mesh2.gridY = y1;
+
+            viewBoard[y1][x1] = mesh2;
+            viewBoard[y2][x2] = mesh1;
+
+            // Targets
+            viewBoard[y1][x1].targetPos.copy(getWorldPos(x1, y1));
+            viewBoard[y2][x2].targetPos.copy(getWorldPos(x2, y2));
+        }
+
+        // --- MATCH LOGIC ---
+        function findMatches() {
+            const matches = new Set();
+
+            // Horizontal
+            for (let y = 0; y < CONFIG.gridSize; y++) {
+                for (let x = 0; x < CONFIG.gridSize - 2; x++) {
+                    const type = board[y][x];
+                    if (type === board[y][x + 1] && type === board[y][x + 2]) {
+                        matches.add(`${x},${y}`);
+                        matches.add(`${x + 1},${y}`);
+                        matches.add(`${x + 2},${y}`);
+                    }
+                }
+            }
+
+            // Vertical
+            for (let x = 0; x < CONFIG.gridSize; x++) {
+                for (let y = 0; y < CONFIG.gridSize - 2; y++) {
+                    const type = board[y][x];
+                    if (type === board[y + 1][x] && type === board[y + 2][x]) {
+                        matches.add(`${x},${y}`);
+                        matches.add(`${x},${y + 1}`);
+                        matches.add(`${x},${y + 2}`);
+                    }
+                }
+            }
+
+            return Array.from(matches).map(str => {
+                const [x, y] = str.split(',').map(Number);
+                return { x, y };
+            });
+        }
+
+        function handleMatches(matches) {
+            // Destory matched gems
+            matches.forEach(m => {
+                const mesh = viewBoard[m.y][m.x];
+                if (mesh) {
+                    spawnParticles(mesh.position, mesh.material.color);
+                    scene.remove(mesh);
+                    viewBoard[m.y][m.x] = null; // Mark as empty
+                    board[m.y][m.x] = -1; // Empty in model
+                }
+            });
+
+            // Trigger Fall/Fill
+            // Small delay for explosion
+            setTimeout(() => {
+                applyGravityAndRefill();
+            }, 300);
+        }
+
+        function spawnParticles(pos, color) {
+            const geo = new THREE.PlaneGeometry(0.15, 0.15);
+            const mat = new THREE.MeshBasicMaterial({
+                color: color,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+
+            for (let i = 0; i < 10; i++) {
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.position.copy(pos);
+                // Random velocity
+                const v = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.3,
+                    (Math.random() - 0.5) * 0.3,
+                    (Math.random() - 0.5) * 0.3
+                );
+
+                scene.add(mesh);
+                particles.push({ mesh, velocity: v });
+            }
+        }
+
+        function applyGravityAndRefill() {
+            animationPhase = 'FILL';
+
+            // 1. Shift Down
+            for (let x = 0; x < CONFIG.gridSize; x++) {
+                let writeY = 0;
+                for (let y = 0; y < CONFIG.gridSize; y++) {
+                    if (board[y][x] !== -1) {
+                        if (y !== writeY) {
+                            // Move logic
+                            board[writeY][x] = board[y][x];
+                            board[y][x] = -1;
+
+                            viewBoard[writeY][x] = viewBoard[y][x];
+                            viewBoard[y][x] = null;
+
+                            // Update Mesh
+                            const mesh = viewBoard[writeY][x];
+                            mesh.gridY = writeY;
+                            mesh.targetPos.copy(getWorldPos(x, writeY)); // Fall target
+                        }
+                        writeY++;
+                    }
+                }
+            }
+
+            // 2. Spawn New
+            for (let x = 0; x < CONFIG.gridSize; x++) {
+                for (let y = 0; y < CONFIG.gridSize; y++) {
+                    if (board[y][x] === -1) {
+                        const type = Math.floor(Math.random() * 6);
+                        board[y][x] = type;
+
+                        const mesh = createGemMesh(type, x, y);
+                        viewBoard[y][x] = mesh;
+
+                        // Start Position (Above screen)
+                        const target = getWorldPos(x, y);
+                        mesh.position.set(target.x, target.y + 10, 0); // Start high
+                        mesh.targetPos.copy(target);
+                    }
+                }
+            }
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            updateCameraPosition();
+        }
+
+        // Start
+        init();
+
+    </script>
+</body>
+
+</html>
